@@ -18,6 +18,7 @@
  *= require general_library_show
  *= require author_show
  *= require category_show
+ *= require auth
  */
 
 body {

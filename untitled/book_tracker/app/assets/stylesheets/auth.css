@@ -1,0 +1,78 @@
+.auth-container {
+    text-align: center;
+    padding: 20px;
+    background-color: #1e1e1e;
+    color: #ffffff;
+    border-radius: 10px;
+    width: 50%;
+    margin: 50px auto;
+}
+
+.auth-container h2 {
+    color: #ffbd33;
+    margin-bottom: 20px;
+}
+
+.auth-container .field {
+    margin-bottom: 20px;
+}
+
+.auth-container .field label {
+    display: block;
+    margin-bottom: 5px;
+    color: #ffbd33;
+}
+
+.auth-container .field input {
+    width: 96%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #444;
+    background-color: #333;
+    color: #fff;
+}
+
+.auth-container .field.inline {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.auth-container .field.inline input[type="checkbox"] {
+    width: auto;
+    margin-right: 10px;
+}
+
+.auth-container .actions {
+    margin-top: 20px;
+}
+
+.auth-container .actions input[type="submit"] {
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    background-color: #ff5733;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.auth-container .actions input[type="submit"]:hover {
+    background-color: #ffbd33;
+}
+
+.auth-container a {
+    color: #ffbd33;
+    text-decoration: none;
+    margin-top: 20px;
+    display: inline-block;
+}
+
+.auth-container a:hover {
+    text-decoration: underline;
+}
+
+.auth-container .error_messages {
+    color: #ff5733;
+    margin-bottom: 20px;
+}

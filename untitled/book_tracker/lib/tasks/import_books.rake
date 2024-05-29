@@ -15,7 +15,7 @@ namespace :books do
         if retries < MAX_RETRIES
           retries += 1
           puts "Error fetching #{url}: #{e.message}. Retrying (#{retries}/#{MAX_RETRIES})..."
-          sleep(2 ** retries)
+          sleep(2 ** retries) # экспоненциальная задержка перед повторной попыткой
           retry
         else
           puts "Failed to fetch #{url} after #{MAX_RETRIES} attempts."

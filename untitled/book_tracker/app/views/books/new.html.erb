@@ -63,23 +63,29 @@
               .then(response => response.json())
               .then(data => {
                   authorSearchResults.innerHTML = '';
-                  if (data.length === 0) {
+
+                  let exactMatch = false;
+
+                  data.forEach(author => {
+                      const li = document.createElement('li');
+                      li.textContent = author.name;
+                      li.dataset.id = author.id;
+                      li.addEventListener('click', () => {
+                          selectAuthor(author.id, author.name);
+                      });
+                      authorSearchResults.appendChild(li);
+                      if (author.name.toLowerCase() === query.toLowerCase()) {
+                          exactMatch = true;
+                      }
+                  });
+
+                  if (!exactMatch) {
                       const createAuthorLi = document.createElement('li');
                       createAuthorLi.textContent = `Создать "${query}"`;
                       createAuthorLi.addEventListener('click', () => {
                           createAuthor(query);
                       });
                       authorSearchResults.appendChild(createAuthorLi);
-                  } else {
-                      data.forEach(author => {
-                          const li = document.createElement('li');
-                          li.textContent = author.name;
-                          li.dataset.id = author.id;
-                          li.addEventListener('click', () => {
-                              selectAuthor(author.id, author.name);
-                          });
-                          authorSearchResults.appendChild(li);
-                      });
                   }
               });
         });
@@ -112,21 +118,33 @@
         }
 
         function createAuthor(name) {
-            fetch('/authors', {
-                method: 'POST',
+            fetch(`/authors?query=${name}`, {
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                },
-                body: JSON.stringify({ author: { name: name, bio: 'Default bio' } })
+                    'Accept': 'application/json'
+                }
             })
               .then(response => response.json())
               .then(data => {
-                  if (data.id) {
-                      selectAuthor(data.id, data.name);
+                  if (data.length > 0) {
+                      alert(`Author "${name}" already exists.`);
                   } else {
-                      alert('Error creating author: ' + data.errors.join(', '));
+                      fetch('/authors', {
+                          method: 'POST',
+                          headers: {
+                              'Content-Type': 'application/json',
+                              'Accept': 'application/json',
+                              'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                          },
+                          body: JSON.stringify({ author: { name: name, bio: 'Default bio' } })
+                      })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.id) {
+                                selectAuthor(data.id, data.name);
+                            } else {
+                                alert('Error creating author: ' + data.errors.join(', '));
+                            }
+                        });
                   }
               });
         }
@@ -151,23 +169,29 @@
               .then(response => response.json())
               .then(data => {
                   categorySearchResults.innerHTML = '';
-                  if (data.length === 0) {
+
+                  let exactMatch = false;
+
+                  data.forEach(category => {
+                      const li = document.createElement('li');
+                      li.textContent = category.name;
+                      li.dataset.id = category.id;
+                      li.addEventListener('click', () => {
+                          selectCategory(category.id, category.name);
+                      });
+                      categorySearchResults.appendChild(li);
+                      if (category.name.toLowerCase() === query.toLowerCase()) {
+                          exactMatch = true;
+                      }
+                  });
+
+                  if (!exactMatch) {
                       const createCategoryLi = document.createElement('li');
                       createCategoryLi.textContent = `Создать "${query}"`;
                       createCategoryLi.addEventListener('click', () => {
                           createCategory(query);
                       });
                       categorySearchResults.appendChild(createCategoryLi);
-                  } else {
-                      data.forEach(category => {
-                          const li = document.createElement('li');
-                          li.textContent = category.name;
-                          li.dataset.id = category.id;
-                          li.addEventListener('click', () => {
-                              selectCategory(category.id, category.name);
-                          });
-                          categorySearchResults.appendChild(li);
-                      });
                   }
               });
         });
@@ -201,21 +225,33 @@
         }
 
         function createCategory(name) {
-            fetch('/categories', {
-                method: 'POST',
+            fetch(`/categories?query=${name}`, {
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                },
-                body: JSON.stringify({ category: { name: name } })
+                    'Accept': 'application/json'
+                }
             })
               .then(response => response.json())
               .then(data => {
-                  if (data.id) {
-                      selectCategory(data.id, data.name);
+                  if (data.length > 0) {
+                      alert(`Category "${name}" already exists.`);
                   } else {
-                      alert('Error creating category: ' + data.errors.join(', '));
+                      fetch('/categories', {
+                          method: 'POST',
+                          headers: {
+                              'Content-Type': 'application/json',
+                              'Accept': 'application/json',
+                              'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                          },
+                          body: JSON.stringify({ category: { name: name } })
+                      })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.id) {
+                                selectCategory(data.id, data.name);
+                            } else {
+                                alert('Error creating category: ' + data.errors.join(', '));
+                            }
+                        });
                   }
               });
         }
@@ -236,4 +272,5 @@
 
         updateCategoryIds();
     });
+
 </script>
