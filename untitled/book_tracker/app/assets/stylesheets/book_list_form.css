@@ -1,0 +1,66 @@
+.book-list-form {
+    background-color: #1e1e1e;
+    color: #ffffff;
+    border-radius: 10px;
+    width: 60%;
+    margin: 20px auto;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.book-list-form h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #ffbd33;
+}
+
+.book-list-form .field {
+    margin-bottom: 15px;
+}
+
+.book-list-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #ffbd33;
+}
+
+.book-list-form input[type="text"] {
+    width: 98%;
+    padding: 10px;
+    background-color: #333;
+    border: 1px solid #444;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.book-list-form .actions {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.book-list-form .submit-button {
+    background-color: #ff5733;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.book-list-form .submit-button:hover {
+    background-color: #ffbd33;
+}
+
+.book-list-form .back-link {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    color: #ff5733;
+    text-decoration: none;
+}
+
+.book-list-form .back-link:hover {
+    text-decoration: underline;
+}

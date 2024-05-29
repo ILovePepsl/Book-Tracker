@@ -1,0 +1,219 @@
+.book-details {
+    background-color: #1e1e1e;
+    color: #ffffff;
+    border-radius: 10px;
+    width: 80%;
+    margin: 20px auto;
+    padding: 20px;
+    position: relative;
+}
+
+.book-details h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #ffbd33;
+}
+
+.book-details img {
+    display: block;
+    margin: 0 auto 20px;
+    border-radius: 10px;
+    width: 300px;
+    height: auto;
+}
+
+.book-details .description {
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.book-details .author,
+.book-details .categories,
+.book-details .rating {
+    margin: 10px 0;
+}
+
+.book-details .author a,
+.book-details .categories a {
+    color: #ffbd33;
+    text-decoration: none;
+}
+
+.book-details .author a:hover,
+.book-details .categories a:hover {
+    text-decoration: underline;
+}
+
+.action-buttons {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.action-buttons .edit-button,
+.action-buttons .delete-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin-left: 10px;
+}
+
+.action-buttons img {
+    width: 24px;
+    height: 24px;
+}
+
+.book-details h2 {
+    margin-top: 40px;
+    text-align: center;
+    color: #ffbd33;
+}
+
+.form-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+}
+
+.status-form,
+.add-to-list-form {
+    display: inline-block;
+    vertical-align: top;
+    width: 45%;
+    text-align: left;
+}
+
+.status-form select,
+.add-to-list-form select,
+.status-form input[type="submit"],
+.add-to-list-form input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: #333;
+    border: 1px solid #444;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.status-form input[type="submit"],
+.add-to-list-form input[type="submit"] {
+    background-color: #ff5733;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.status-form input[type="submit"]:hover,
+.add-to-list-form input[type="submit"]:hover {
+    background-color: #ffbd33;
+}
+
+.book-details .status-form #reading-dates {
+    margin-top: 10px;
+}
+
+.section-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+}
+
+.section {
+    width: 45%;
+    max-width: 600px;
+    word-wrap: break-word;
+}
+
+.section h2 {
+    text-align: center;
+    margin-bottom: 10px;
+    color: #ffbd33;
+}
+
+.section button {
+    display: block;
+    width: 100%;
+    background-color: #444;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.section button:hover {
+    background-color: #555;
+}
+
+.section .section-content {
+    display: none;
+}
+
+.section .section-content p {
+    margin: 10px 0;
+    background-color: #333;
+    padding: 10px;
+    border-radius: 5px;
+    font-style: italic;
+    font-size: 16px;
+    word-wrap: break-word;
+}
+
+.section .section-content em {
+    font-size: 12px;
+    color: #bbb;
+    display: block;
+    text-align: right;
+}
+
+.section .section-content form {
+    text-align: left;
+    margin-top: 10px;
+}
+
+.section .section-content textarea {
+    width: 95%;
+    padding: 10px;
+    background-color: #333;
+    border: 1px solid #444;
+    border-radius: 5px;
+    color: #fff;
+    margin-bottom: 10px;
+    word-wrap: break-word;
+}
+
+.section .section-content input[type="submit"] {
+    background-color: #ff5733;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.section .section-content input[type="submit"]:hover {
+    background-color: #ffbd33;
+}
+
+.section .section-content .new-remove-button {
+    background-color: #343131;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    display: block;
+    margin: 10px auto 0;
+}
+
+.section .section-content .new-remove-button:hover {
+    background-color: #ffbd33;
+}

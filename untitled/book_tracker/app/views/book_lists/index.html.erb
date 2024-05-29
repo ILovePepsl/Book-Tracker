@@ -1,9 +1,29 @@
-<h1>My Book Lists</h1>
-<%= link_to 'Create New List', new_book_list_path %>
-<ul>
-  <% @book_lists.each do |book_list| %>
-    <li>
-      <%= link_to book_list.name, book_list_path(book_list) %>
-    </li>
-  <% end %>
-</ul>
+<div class="book-lists">
+  <div class="page-card">
+    <h1>My Book Lists</h1>
+    <%= link_to new_book_list_path, class: 'create-new-list' do %>
+      <img src="<%= asset_path('add_new_list.png') %>" alt="Create New List">
+    <% end %>
+    <div class="lists-container">
+      <% @book_lists.each do |book_list| %>
+        <%= link_to book_list_path(book_list), class: 'list-card-link' do %>
+          <div class="list-card">
+            <h2 class="list-name"><%= book_list.name %></h2>
+            <div class="books-in-list">
+              <% book_list.books.limit(4).each do |book| %>
+                <div class="book-cover">
+                  <%= image_tag book.cover_image.attached? ? url_for(book.cover_image) : 'default_cover.png', size: "100x150" %>
+                </div>
+              <% end %>
+              <% if book_list.books.count > 4 %>
+                <div class="more-books">
+                  +<%= book_list.books.count - 4 %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

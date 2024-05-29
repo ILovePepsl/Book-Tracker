@@ -14,7 +14,7 @@
       .sidebar {
           width: 200px;
           padding: 15px;
-          background-color: #f8f9fa;
+          background-color: #2c2c2c;
       }
       .main-content {
           flex-grow: 1;
@@ -40,8 +40,6 @@
   <div class="main-content">
     <nav>
       <% if user_signed_in? %>
-        <%= link_to 'Profile', edit_user_registration_path %> |
-        <%= button_to 'Logout', destroy_user_session_path, method: :delete %>
       <% else %>
         <%= link_to 'Sign up', new_user_registration_path %> |
         <%= link_to 'Login', new_user_session_path %>

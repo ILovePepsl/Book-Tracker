@@ -1,40 +1,136 @@
-<%= form_for @book, html: { multipart: true } do |f| %>
-  <div class="field">
-    <%= f.label :title %>
-    <%= f.text_field :title %>
-  </div>
-  <div class="field">
-    <%= f.label :description %>
-    <%= f.text_area :description %>
-  </div>
-  <div class="field">
-    <%= f.label :cover_image %>
-    <%= f.file_field :cover_image %>
-  </div>
-  <div class="field">
-    <%= f.label :author_id, 'Author' %>
-    <%= f.collection_select :author_id, @authors, :id, :name, prompt: 'Select an author' %>
-    <%= link_to 'Add New Author', new_author_path %>
-  </div>
-  <div class="field">
-    <%= f.label :category_ids, 'Categories' %>
-    <input type="text" id="category-search" placeholder="Search for categories...">
-    <ul id="category-search-results"></ul>
-    <ul id="selected-categories">
-      <% @book.categories.each do |category| %>
-        <li data-id="<%= category.id %>"><%= category.name %> <button type="button" class="remove-category">Remove</button></li>
-      <% end %>
-    </ul>
-    <input type="hidden" name="book[category_ids][]" id="category-ids">
-    <%= link_to 'Add New Category', new_category_path %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>
+<div class="edit-book-form">
+  <h1>Edit Book</h1>
+  <%= form_for @book, html: { multipart: true } do |f| %>
+    <div class="field">
+      <%= f.label :title %>
+      <%= f.text_field :title %>
+    </div>
+    <div class="field">
+      <%= f.label :description %>
+      <%= f.text_area :description %>
+    </div>
+    <div class="field">
+      <%= f.label :cover_image %>
+      <%= f.file_field :cover_image %>
+    </div>
+    <div class="field">
+      <%= f.label :author_id, 'Author' %>
+      <input type="text" id="author-search" placeholder="Search for authors...">
+      <ul id="author-search-results"></ul>
+      <ul id="selected-author">
+        <% if @book.author %>
+          <li data-id="<%= @book.author.id %>"><%= @book.author.name %> <button type="button" class="remove-author">Remove</button></li>
+        <% end %>
+      </ul>
+      <input type="hidden" name="book[author_id]" id="author-id" value="<%= @book.author_id %>">
+    </div>
+    <div class="field">
+      <%= f.label :category_ids, 'Categories' %>
+      <input type="text" id="category-search" placeholder="Search for categories...">
+      <ul id="category-search-results"></ul>
+      <ul id="selected-categories">
+        <% @book.categories.each do |category| %>
+          <li data-id="<%= category.id %>"><%= category.name %> <button type="button" class="remove-category">Remove</button></li>
+        <% end %>
+      </ul>
+      <input type="hidden" name="book[category_ids][]" id="category-ids" multiple="true">
+    </div>
+    <div class="actions">
+      <%= f.submit 'Update Book' %>
+    </div>
+  <% end %>
+</div>
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
+        const authorSearch = document.getElementById('author-search');
+        const authorSearchResults = document.getElementById('author-search-results');
+        const selectedAuthor = document.getElementById('selected-author');
+        const authorIdInput = document.getElementById('author-id');
+
+        authorSearch.addEventListener('input', () => {
+            const query = authorSearch.value;
+            if (query.length < 2) {
+                authorSearchResults.innerHTML = '';
+                return;
+            }
+
+            fetch(`/authors?query=${query}`, {
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+              .then(response => response.json())
+              .then(data => {
+                  authorSearchResults.innerHTML = '';
+                  if (data.length === 0) {
+                      const createAuthorLi = document.createElement('li');
+                      createAuthorLi.textContent = `Создать "${query}"`;
+                      createAuthorLi.addEventListener('click', () => {
+                          createAuthor(query);
+                      });
+                      authorSearchResults.appendChild(createAuthorLi);
+                  } else {
+                      data.forEach(author => {
+                          const li = document.createElement('li');
+                          li.textContent = author.name;
+                          li.dataset.id = author.id;
+                          li.addEventListener('click', () => {
+                              selectAuthor(author.id, author.name);
+                          });
+                          authorSearchResults.appendChild(li);
+                      });
+                  }
+              });
+        });
+
+        selectedAuthor.addEventListener('click', (event) => {
+            if (event.target.classList.contains('remove-author')) {
+                const li = event.target.parentElement;
+                selectedAuthor.removeChild(li);
+                authorIdInput.value = '';
+            }
+        });
+
+        function selectAuthor(id, name) {
+            selectedAuthor.innerHTML = '';
+            const selectedLi = document.createElement('li');
+            selectedLi.textContent = name;
+            selectedLi.dataset.id = id;
+            const removeButton = document.createElement('button');
+            removeButton.type = 'button';
+            removeButton.textContent = 'Remove';
+            removeButton.addEventListener('click', () => {
+                selectedAuthor.removeChild(selectedLi);
+                authorIdInput.value = '';
+            });
+            selectedLi.appendChild(removeButton);
+            selectedAuthor.appendChild(selectedLi);
+            authorIdInput.value = id;
+            authorSearch.value = '';
+            authorSearchResults.innerHTML = '';
+        }
+
+        function createAuthor(name) {
+            fetch('/authors', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({ author: { name: name, bio: 'Default bio' } })
+            })
+              .then(response => response.json())
+              .then(data => {
+                  if (data.id) {
+                      selectAuthor(data.id, data.name);
+                  } else {
+                      alert('Error creating author: ' + data.errors.join(', '));
+                  }
+              });
+        }
+
         const categorySearch = document.getElementById('category-search');
         const categorySearchResults = document.getElementById('category-search-results');
         const selectedCategories = document.getElementById('selected-categories');
@@ -52,35 +148,28 @@
                     'Accept': 'application/json'
                 }
             })
-                .then(response => response.json())
-                .then(data => {
-                    categorySearchResults.innerHTML = '';
-                    data.forEach(category => {
-                        const li = document.createElement('li');
-                        li.textContent = category.name;
-                        li.dataset.id = category.id;
-                        li.addEventListener('click', () => {
-                            if (!Array.from(selectedCategories.children).find(child => child.dataset.id == category.id)) {
-                                const selectedLi = document.createElement('li');
-                                selectedLi.textContent = category.name;
-                                selectedLi.dataset.id = category.id;
-                                const removeButton = document.createElement('button');
-                                removeButton.type = 'button';
-                                removeButton.textContent = 'Remove';
-                                removeButton.addEventListener('click', () => {
-                                    selectedCategories.removeChild(selectedLi);
-                                    updateCategoryIds();
-                                });
-                                selectedLi.appendChild(removeButton);
-                                selectedCategories.appendChild(selectedLi);
-                                updateCategoryIds();
-                                categorySearch.value = '';
-                                categorySearchResults.innerHTML = '';
-                            }
-                        });
-                        categorySearchResults.appendChild(li);
-                    });
-                });
+              .then(response => response.json())
+              .then(data => {
+                  categorySearchResults.innerHTML = '';
+                  if (data.length === 0) {
+                      const createCategoryLi = document.createElement('li');
+                      createCategoryLi.textContent = `Создать "${query}"`;
+                      createCategoryLi.addEventListener('click', () => {
+                          createCategory(query);
+                      });
+                      categorySearchResults.appendChild(createCategoryLi);
+                  } else {
+                      data.forEach(category => {
+                          const li = document.createElement('li');
+                          li.textContent = category.name;
+                          li.dataset.id = category.id;
+                          li.addEventListener('click', () => {
+                              selectCategory(category.id, category.name);
+                          });
+                          categorySearchResults.appendChild(li);
+                      });
+                  }
+              });
         });
 
         selectedCategories.addEventListener('click', (event) => {
@@ -90,6 +179,46 @@
                 updateCategoryIds();
             }
         });
+
+        function selectCategory(id, name) {
+            if (!Array.from(selectedCategories.children).find(child => child.dataset.id == id)) {
+                const selectedLi = document.createElement('li');
+                selectedLi.textContent = name;
+                selectedLi.dataset.id = id;
+                const removeButton = document.createElement('button');
+                removeButton.type = 'button';
+                removeButton.textContent = 'Remove';
+                removeButton.addEventListener('click', () => {
+                    selectedCategories.removeChild(selectedLi);
+                    updateCategoryIds();
+                });
+                selectedLi.appendChild(removeButton);
+                selectedCategories.appendChild(selectedLi);
+                updateCategoryIds();
+                categorySearch.value = '';
+                categorySearchResults.innerHTML = '';
+            }
+        }
+
+        function createCategory(name) {
+            fetch('/categories', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({ category: { name: name } })
+            })
+              .then(response => response.json())
+              .then(data => {
+                  if (data.id) {
+                      selectCategory(data.id, data.name);
+                  } else {
+                      alert('Error creating category: ' + data.errors.join(', '));
+                  }
+              });
+        }
 
         function updateCategoryIds() {
             const ids = Array.from(selectedCategories.children).map(li => li.dataset.id);

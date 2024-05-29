@@ -13,6 +13,7 @@ class Book < ApplicationRecord
   validates :title, presence: true
   validates :rating, numericality: { only_integer: true, allow_nil: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 10 }
 
+  # Scope for books in the general library
   scope :general_library, -> { where(user: nil) }
 
   def add_to_list(list_name)

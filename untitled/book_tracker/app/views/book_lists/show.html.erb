@@ -1,20 +1,34 @@
-<h1><%= @book_list.name %></h1>
-
-<h2>Books in this list:</h2>
-<ul>
-  <% @book_list.books.each do |book| %>
-    <li>
-      <%= image_tag book.cover_image.attached? ? url_for(book.cover_image) : 'default_cover.png', size: "50x50" %>
-      <%= link_to book.title, book_path(book) %>
+<div class="book-list">
+  <div class="page-card">
+    <div class="action-buttons">
       <% unless ['Хочу прочитать', 'Сейчас читаю', 'Прочитал'].include?(@book_list.name) %>
-        <%= button_to 'Remove', remove_book_from_list_book_list_path(@book_list, book_id: book.id), method: :delete, data: { confirm: 'Are you sure?' } %>
+        <%= link_to edit_book_list_path(@book_list), class: 'edit-button' do %>
+          <img src="<%= asset_path('edit.png') %>" alt="Edit List">
+        <% end %>
+        <%= button_to book_list_path(@book_list), method: :delete, data: { confirm: 'Are you sure?' }, class: 'delete-button' do %>
+          <img src="<%= asset_path('delete_book.png') %>" alt="Delete List">
+        <% end %>
       <% end %>
-    </li>
-  <% end %>
-</ul>
+    </div>
+    <h1><%= @book_list.name %></h1>
 
-<%= link_to 'Back to Lists', book_lists_path %> |
-<% unless ['Хочу прочитать', 'Сейчас читаю', 'Прочитал'].include?(@book_list.name) %>
-  <%= link_to 'Edit', edit_book_list_path(@book_list) %> |
-  <%= button_to 'Delete List', book_list_path(@book_list), method: :delete, data: { confirm: 'Are you sure?' } %>
-<% end %>
+    <h2>Books in this list:</h2>
+    <div class="books-container">
+      <% @book_list.books.each do |book| %>
+        <div class="book-card">
+          <div class="book-cover">
+            <%= image_tag book.cover_image.attached? ? url_for(book.cover_image) : 'default_cover.png', size: "100x150" %>
+          </div>
+          <div class="book-info">
+            <h3><%= link_to book.title, book_path(book) %></h3>
+          </div>
+          <% unless ['Хочу прочитать', 'Сейчас читаю', 'Прочитал'].include?(@book_list.name) %>
+            <%= button_to remove_book_from_list_book_list_path(@book_list, book_id: book.id), method: :delete, data: { confirm: 'Are you sure?' }, class: 'remove-button' do %>
+              <img src="<%= asset_path('minus.png') %>" alt="Remove Book">
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

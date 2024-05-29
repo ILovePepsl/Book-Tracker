@@ -1,12 +1,37 @@
 <div class="profile">
+  <div class="action-buttons">
+    <%= link_to edit_profile_path do %>
+      <img src="<%= asset_path('edit.png') %>" alt="Edit Profile">
+    <% end %>
+    <%= button_to destroy_user_session_path, method: :delete do %>
+      <img src="<%= asset_path('exit.png') %>" alt="Logout">
+    <% end %>
+  </div>
+  <div class="info">
+    <h2><%= @user.username %></h2>
+  </div>
   <div class="avatar">
     <%= image_tag @user.avatar.attached? ? url_for(@user.avatar) : 'default_avatar.jpg', size: "150x150" %>
   </div>
   <div class="info">
-    <p>Username: <%= @user.username %></p>
-    <p>Total Books: <%= @user.total_books_read %></p>
-    <p>Achievement Progress: <%= @user.achievements_percentage %>%</p>
-    <p>Goal Progress: <%= @user.goal_progress %>%</p>
-    <%= link_to 'Edit Profile', edit_profile_path %>
+    <div class="books-read">
+      Total Books Read: <%= @user.total_books_read %>
+    </div>
+    <div class="progress-bar-container">
+      <div class="progress-bar-wrapper">
+        <div class="progress-bar-label">Goal Progress</div>
+        <div class="progress-bar">
+          <div class="percentage"><%= @user.goal_progress %>%</div>
+          <div class="fill" style="width: <%= @user.goal_progress %>%"></div>
+        </div>
+      </div>
+      <div class="progress-bar-wrapper">
+        <div class="progress-bar-label">Achievement Progress</div>
+        <div class="progress-bar">
+          <div class="percentage"><%= @user.achievements_percentage %>%</div>
+          <div class="fill" style="width: <%= @user.achievements_percentage %>%"></div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

@@ -1,15 +1,23 @@
-<h1>Достижения</h1>
+<div class="achievements-page">
+  <h1>Достижения</h1>
 
-<% @achievements.each do |achievement| %>
-  <div class="achievement">
-    <h2><%= achievement.name %></h2>
-    <p><%= achievement.description %></p>
-    <p>Статус: <%= achievement.completed ? 'Выполнено' : 'Не выполнено' %></p>
-    <% if achievement.completed %>
-      <%= image_tag 'gold-medal.png', size: "100x100" %>
-    <% else %>
-      <%= image_tag 'secret.png', size: "100x100" %>
-    <% end %>
-    <%= progress_bar(achievement, current_user) %>
-  </div>
-<% end %>
+  <% @achievements.each do |achievement| %>
+    <div class="achievement">
+      <% if achievement.completed %>
+        <%= image_tag 'gold-medal.png', size: "60x60" %>
+      <% else %>
+        <%= image_tag 'secret.png', size: "60x60" %>
+      <% end %>
+      <div class="achievement-content">
+        <h2><%= achievement.name %></h2>
+        <p><%= achievement.description %></p>
+        <div class="progress-bar">
+          <% progress = progress_bar(achievement, current_user).match(/width: (\d+)%/)[1].to_i %>
+          <div class="progress-bar-fill" style="width: <%= progress %>%;">
+            <span class="percentage"><%= progress %>%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

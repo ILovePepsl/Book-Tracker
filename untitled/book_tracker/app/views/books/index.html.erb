@@ -1,10 +1,12 @@
-<h1>My Library</h1>
-<%= link_to 'Add New Book', new_book_path %>
-<ul>
-  <% @books.each do |book| %>
-    <li>
-      <%= image_tag book.cover_image.attached? ? url_for(book.cover_image) : 'default_cover.png', size: "50x50" %>
-      <%= link_to book.title, book_path(book) %>
-    </li>
-  <% end %>
-</ul>
+<div class="library">
+  <h1>My Library</h1>
+  <%= link_to 'Add New Book', new_book_path, class: 'add-book-button' %>
+  <div class="books-list">
+    <% @books.each do |book| %>
+      <div class="book-card">
+        <%= image_tag book.cover_image.attached? ? url_for(book.cover_image) : 'default_cover.png', size: "150x200" %>
+        <%= link_to book.title, book_path(book) %>
+      </div>
+    <% end %>
+  </div>
+</div>

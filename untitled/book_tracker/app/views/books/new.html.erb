@@ -1,42 +1,45 @@
-<%= form_for @book, html: { multipart: true } do |f| %>
-  <div class="field">
-    <%= f.label :title %>
-    <%= f.text_field :title %>
-  </div>
-  <div class="field">
-    <%= f.label :description %>
-    <%= f.text_area :description %>
-  </div>
-  <div class="field">
-    <%= f.label :cover_image %>
-    <%= f.file_field :cover_image %>
-  </div>
-  <div class="field">
-    <%= f.label :author_id, 'Author' %>
-    <input type="text" id="author-search" placeholder="Search for authors...">
-    <ul id="author-search-results"></ul>
-    <ul id="selected-author">
-      <% if @book.author %>
-        <li data-id="<%= @book.author.id %>"><%= @book.author.name %> <button type="button" class="remove-author">Remove</button></li>
-      <% end %>
-    </ul>
-    <input type="hidden" name="book[author_id]" id="author-id">
-  </div>
-  <div class="field">
-    <%= f.label :category_ids, 'Categories' %>
-    <input type="text" id="category-search" placeholder="Search for categories...">
-    <ul id="category-search-results"></ul>
-    <ul id="selected-categories">
-      <% @book.categories.each do |category| %>
-        <li data-id="<%= category.id %>"><%= category.name %> <button type="button" class="remove-category">Remove</button></li>
-      <% end %>
-    </ul>
-    <input type="hidden" name="book[category_ids][]" id="category-ids" multiple="true">
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>
+<div class="new-book-form">
+  <h1>Add New Book</h1>
+  <%= form_for @book, html: { multipart: true } do |f| %>
+    <div class="field">
+      <%= f.label :title %>
+      <%= f.text_field :title %>
+    </div>
+    <div class="field">
+      <%= f.label :description %>
+      <%= f.text_area :description %>
+    </div>
+    <div class="field">
+      <%= f.label :cover_image %>
+      <%= f.file_field :cover_image %>
+    </div>
+    <div class="field">
+      <%= f.label :author_id, 'Author' %>
+      <input type="text" id="author-search" placeholder="Search for authors...">
+      <ul id="author-search-results"></ul>
+      <ul id="selected-author">
+        <% if @book.author %>
+          <li data-id="<%= @book.author.id %>"><%= @book.author.name %> <button type="button" class="remove-author">Remove</button></li>
+        <% end %>
+      </ul>
+      <input type="hidden" name="book[author_id]" id="author-id">
+    </div>
+    <div class="field">
+      <%= f.label :category_ids, 'Categories' %>
+      <input type="text" id="category-search" placeholder="Search for categories...">
+      <ul id="category-search-results"></ul>
+      <ul id="selected-categories">
+        <% @book.categories.each do |category| %>
+          <li data-id="<%= category.id %>"><%= category.name %> <button type="button" class="remove-category">Remove</button></li>
+        <% end %>
+      </ul>
+      <input type="hidden" name="book[category_ids][]" id="category-ids" multiple="true">
+    </div>
+    <div class="actions">
+      <%= f.submit 'Add Book' %>
+    </div>
+  <% end %>
+</div>
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {

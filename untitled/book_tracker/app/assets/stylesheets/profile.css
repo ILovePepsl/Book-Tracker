@@ -1,0 +1,95 @@
+.profile {
+    position: relative;
+    text-align: center;
+    padding: 20px;
+    background-color: #1e1e1e;
+    color: #ffffff;
+    border-radius: 10px;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.avatar img {
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.info {
+    margin-top: 20px;
+}
+
+.info h2 {
+    margin-bottom: 20px;
+}
+
+.books-read {
+    font-size: 18px;
+    margin: 20px 0;
+    color: #ffbd33;
+}
+
+.progress-bar-container {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+}
+
+.progress-bar-wrapper {
+    width: 45%;
+    text-align: center;
+}
+
+.progress-bar-label {
+    margin-bottom: 5px;
+    font-size: 16px;
+}
+
+.progress-bar {
+    background-color: #333;
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+    height: 20px;
+}
+
+.progress-bar .fill {
+    height: 100%;
+    background: linear-gradient(to right, #ff5733, #ffbd33);
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.progress-bar .percentage {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 0;
+    left: 0;
+    line-height: 20px;
+    font-size: 14px;
+    color: #ffffff;
+    z-index: 1;
+}
+
+.action-buttons {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.action-buttons a,
+.action-buttons button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin-left: 10px;
+}
+
+.action-buttons img {
+    width: 24px;
+    height: 24px;
+}

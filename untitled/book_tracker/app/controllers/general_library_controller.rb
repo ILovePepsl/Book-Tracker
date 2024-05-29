@@ -1,7 +1,16 @@
 class GeneralLibraryController < ApplicationController
   def index
     @per_page = params[:per_page] || 15
-    @books = Book.where(general_library: true).page(params[:page]).per(@per_page)
+    @query = params[:query]
+
+    @books = if @query.present?
+               Book.where(general_library: true)
+                   .where('title LIKE ? OR description LIKE ?', "%#{@query}%", "%#{@query}%")
+                   .page(params[:page])
+                   .per(@per_page)
+             else
+               Book.where(general_library: true).page(params[:page]).per(@per_page)
+             end
   end
 
   def show

@@ -1,10 +1,10 @@
 <nav class="nav flex-column">
-  <%= link_to 'Profile', profile_path %>
-  <%= link_to 'My Library', books_path %>
-  <%= link_to 'Lists', book_lists_path %>
-  <%= link_to 'Achievements', achievements_path %>
-  <%= link_to 'Statistics', statistics_path %>
-  <%= link_to 'Calendar', reading_calendars_path %>
-  <%= link_to 'Goal', goal_path %>
-  <%= link_to 'General Library', general_library_index_path %>
+  <%= button_to 'Profile', profile_path, method: :get, class: 'nav-button' %>
+  <%= button_to 'My Library', books_path, method: :get, class: 'nav-button' %>
+  <%= button_to 'Lists', book_lists_path, method: :get, class: 'nav-button' %>
+  <%= button_to 'Achievements', achievements_path, method: :get, class: 'nav-button' %>
+  <%= button_to 'Statistics', statistics_path, method: :get, class: 'nav-button' %>
+  <%= button_to 'Calendar', reading_calendars_path, method: :get, class: 'nav-button' %>
+  <%= button_to 'Goal', goal_path, method: :get, class: 'nav-button' %>
+  <%= button_to 'General Library', general_library_index_path, method: :get, class: 'nav-button' %>
 </nav>

@@ -1,0 +1,59 @@
+.library {
+    text-align: center;
+    padding: 20px;
+    background-color: #1e1e1e;
+    color: #ffffff;
+    border-radius: 10px;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.library h1 {
+    margin-bottom: 20px;
+}
+
+.add-book-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #ff5733;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+
+.books-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.book-card {
+    background-color: #333;
+    border-radius: 10px;
+    width: 200px;
+    margin: 10px;
+    padding: 10px;
+    text-align: center;
+}
+
+.book-card img {
+    border-radius: 5px;
+    margin-bottom: 10px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.book-card a {
+    color: #ffbd33;
+    text-decoration: none;
+    font-size: 18px;
+    display: block;
+    margin-top: 10px;
+}
+
+.book-card a:hover {
+    text-decoration: underline;
+}

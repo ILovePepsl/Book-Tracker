@@ -9,6 +9,9 @@
       <option value="50" <%= 'selected' if @per_page.to_i == 50 %>>50</option>
       <option value="100" <%= 'selected' if @per_page.to_i == 100 %>>100</option>
     </select>
+    <%= label_tag :query, "Search:" %>
+    <%= text_field_tag :query, @query %>
+    <%= submit_tag "Search" %>
   <% end %>
 </div>
 
