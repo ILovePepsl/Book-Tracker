@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_26_170947) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_28_130218) do
   create_table "achievements", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "name"
@@ -192,6 +192,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_26_170947) do
     t.float "goal_percentage"
     t.integer "reading_goal"
     t.boolean "admin", default: false, null: false
+    t.string "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string "unconfirmed_email"
+    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["username"], name: "index_users_on_username"

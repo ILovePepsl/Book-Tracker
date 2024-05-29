@@ -32,7 +32,9 @@ namespace :books do
       author = page.css('span.ContributorLink__name[data-testid="name"]').first&.text&.strip || "Unknown Author"
       description = page.css('div[data-testid="description"] div.TruncatedContent__text span.Formatted').text.strip rescue "No description available."
       image_url = page.css('div.BookCard__cover img.ResponsiveImage').attr('src').value.strip rescue nil
-      genres = page.css('div[data-testid="genresList"] a.Button--tag-inline span.Button__labelItem').map(&:text).join(", ").strip rescue "No genres available."
+
+      # Сохраняем только первые две категории
+      genres = page.css('div[data-testid="genresList"] a.Button--tag-inline span.Button__labelItem').map(&:text).take(2).join(", ").strip rescue "No genres available."
 
       { title: title, author: author, description: description, image_url: image_url, genres: genres }
     end
@@ -68,7 +70,7 @@ namespace :books do
 
           book.save!
 
-          # Привязываем категории
+          # Привязываем только первые две категории
           genres = book_details[:genres].split(", ").map do |genre|
             Category.find_or_create_by(name: genre)
           end

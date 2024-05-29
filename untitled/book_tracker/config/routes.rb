@@ -49,4 +49,5 @@ Rails.application.routes.draw do
   end
 
   root to: 'profiles#show'
+
 end
