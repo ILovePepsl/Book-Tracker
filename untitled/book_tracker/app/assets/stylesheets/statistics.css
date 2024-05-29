@@ -1,0 +1,98 @@
+.statistics-page {
+    text-align: left;
+    padding: 20px;
+    background-color: #1e1e1e;
+    color: #ffffff;
+    border-radius: 10px;
+    width: 80%;
+    margin: 20px auto;
+}
+
+.statistics-page h1 {
+    color: #ffbd33;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.statistics-cards {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.stat-card {
+    background-color: #2e2e2e;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    text-align: center;
+    width: 20%;
+    margin-bottom: 20px;
+}
+
+.stat-card h3 {
+    margin: 0 0 10px;
+    font-size: 18px;
+    color: #ffbd33;
+}
+
+.stat-card .stat-value {
+    margin: 0;
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.charts-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.chart-card,
+.chart-card-medium {
+    background-color: #2e2e2e;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    text-align: center;
+    flex: 1 1 calc(33.333% - 20px);
+    margin-bottom: 20px;
+}
+
+.chart-card h2,
+.chart-card-medium h3 {
+    color: #ffbd33;
+    margin-bottom: 10px;
+}
+
+.chart-legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.legend-color {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-right: 5px;
+}
+
+#genre-distribution-chart,
+#rating-distribution-chart,
+#books-by-authors-chart,
+#books-read-by-year-chart,
+#books-read-by-month-chart {
+    max-width: 400px;
+    max-height: 400px;
+    margin: auto;
+}

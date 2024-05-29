@@ -1,0 +1,93 @@
+.reading-calendar-page {
+    text-align: left;
+    padding: 20px;
+    background-color: #1e1e1e;
+    color: #ffffff;
+    border-radius: 10px;
+    width: 80%;
+    margin: 20px auto;
+}
+
+.reading-calendar-page h1,
+.reading-calendar-page h2 {
+    color: #ffbd33;
+    text-align: center;
+}
+
+.reading-calendar-page form {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.reading-calendar-page form div {
+    margin-right: 10px;
+}
+
+.reading-calendar-page label {
+    margin-right: 5px;
+}
+
+.reading-calendar-page select {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #444;
+    background-color: #333;
+    color: #fff;
+}
+
+.reading-calendar-page input[type="submit"] {
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #ff5733;
+    color: #fff;
+    cursor: pointer;
+}
+
+.reading-calendar-page input[type="submit"]:hover {
+    background-color: #ffbd33;
+}
+
+.reading-calendar-page ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.reading-calendar-page li {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    background-color: #2e2e2e;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.reading-calendar-page li img {
+    border-radius: 5px;
+    margin-right: 20px;
+    width: 100px;
+    height: auto;
+}
+
+.reading-calendar-page li .book-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.reading-calendar-page li .book-title {
+    font-size: 18px;
+    color: #ffbd33;
+    text-decoration: none;
+    margin-bottom: 5px;
+}
+
+.reading-calendar-page li .book-title:hover {
+    text-decoration: underline;
+}
+
+.reading-calendar-page li p {
+    margin: 0;
+    font-size: 14px;
+    color: #bbb;
+}

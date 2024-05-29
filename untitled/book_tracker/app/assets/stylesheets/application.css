@@ -10,6 +10,14 @@
  *= require book_lists
  *= require book_list_form
  *= require achievements
+ *= require statistics
+ *= require reading_calendars
+ *= require goal
+ *= require edit_goal
+ *= require general_library
+ *= require general_library_show
+ *= require author_show
+ *= require category_show
  */
 
 body {

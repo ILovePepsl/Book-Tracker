@@ -1,0 +1,97 @@
+.goal-page {
+    position: relative;
+    text-align: center;
+    padding: 20px;
+    background-color: #1e1e1e;
+    color: #ffffff;
+    border-radius: 10px;
+    width: 80%;
+    margin: 20px auto;
+}
+
+.goal {
+    font-size: 36px;
+    font-weight: bold;
+    color: #ffbd33;
+    margin: 20px 0;
+}
+
+.goal-subtitle {
+    font-size: 18px;
+    color: #bbb;
+}
+
+.progress-container {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.progress-bar {
+    position: relative;
+    height: 30px;
+    border-radius: 15px;
+    background-color: #444;
+    overflow: hidden;
+    margin: 10px 0;
+    width: 100%;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(to right, #ff5733, #ffbd33);
+    border-radius: 15px 0 0 15px;
+    text-align: center;
+    color: #fff;
+    line-height: 30px;
+    white-space: nowrap;
+    overflow: hidden;
+    position: relative;
+    transition: width 1s ease-in-out;
+}
+
+.goal-page ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.goal-page li {
+    margin-bottom: 10px;
+    background-color: #2e2e2e;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: left;
+}
+
+.goal-page li a {
+    color: #ffbd33;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.goal-page li a:hover {
+    text-decoration: underline;
+}
+
+.goal-page li p {
+    margin: 0;
+    font-size: 14px;
+    color: #bbb;
+}
+
+.goal-page .edit-goal {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.goal-page .edit-goal img {
+    width: 24px;
+    height: 24px;
+}

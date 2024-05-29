@@ -1,0 +1,68 @@
+.edit-goal-page {
+    text-align: center;
+    padding: 20px;
+    background-color: #1e1e1e;
+    color: #ffffff;
+    border-radius: 10px;
+    width: 60%;
+    margin: 20px auto;
+}
+
+.edit-goal-page h1 {
+    color: #ffbd33;
+    margin-bottom: 20px;
+}
+
+.field {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.field label {
+    display: block;
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #ffbd33;
+}
+
+.field input {
+    width: 97%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #444;
+    background-color: #333;
+    color: #fff;
+    font-size: 16px;
+}
+
+.actions {
+    text-align: center;
+}
+
+.actions input[type="submit"] {
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    background-color: #ff5733;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.actions input[type="submit"]:hover {
+    background-color: #ffbd33;
+}
+
+.back-link {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #444;
+    color: #fff;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.back-link:hover {
+    background-color: #555;
+}

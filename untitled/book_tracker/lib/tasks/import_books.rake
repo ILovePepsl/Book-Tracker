@@ -68,6 +68,7 @@ namespace :books do
 
           book.save!
 
+          # Привязываем категории
           genres = book_details[:genres].split(", ").map do |genre|
             Category.find_or_create_by(name: genre)
           end

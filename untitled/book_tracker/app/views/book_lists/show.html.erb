@@ -32,3 +32,110 @@
     </div>
   </div>
 </div>
+
+
+<style>
+    .book-list {
+        background-color: #2c2c2c;
+        color: #ffffff;
+        padding: 20px;
+    }
+
+    .page-card {
+        background-color: #1e1e1e;
+        color: #ffffff;
+        border-radius: 10px;
+        width: 80%;
+        margin: 20px auto;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        position: relative;
+    }
+
+    .page-card h1 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #ffbd33;
+    }
+
+    .page-card h2 {
+        margin-bottom: 20px;
+        color: #ffbd33;
+    }
+
+    .books-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: flex-start;
+    }
+
+    .book-card {
+        background-color: #333;
+        border-radius: 10px;
+        padding: 10px;
+        width: 120px;
+        text-align: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        position: relative;
+        box-sizing: border-box;
+    }
+
+    .book-cover img {
+        width: 100px;
+        height: 150px;
+        border-radius: 5px;
+    }
+
+    .book-info {
+        margin-top: 10px;
+    }
+
+    .book-info h3 {
+        font-size: 14px;
+        margin-bottom: 10px;
+        color: #ffbd33;
+    }
+
+    .book-info h3 a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .book-info h3 a:hover {
+        text-decoration: underline;
+    }
+
+    .remove-button {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: none;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        width: 16px;
+        height: 16px;
+    }
+
+    .remove-button img {
+        width: 16px;
+        height: 16px;
+    }
+
+    .action-buttons {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        display: flex;
+        gap: 10px;
+    }
+
+    .action-buttons .edit-button img,
+    .action-buttons .delete-button img {
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+        border-radius: 0;
+    }
+</style>

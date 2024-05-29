@@ -98,5 +98,5 @@
     width: 24px;
     height: 24px;
     cursor: pointer;
-    border-radius: 0; /* прибрати закруглення кнопочки */
+    border-radius: 0;
 }

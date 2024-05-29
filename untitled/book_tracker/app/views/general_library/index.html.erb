@@ -1,71 +1,168 @@
-<h1>General Library</h1>
+<div class="general-library-page">
+  <h1>General Library</h1>
 
-<div class="pagination-controls">
-  <%= form_with url: general_library_index_path, method: :get, local: true do %>
-    <label for="per_page">Books per page:</label>
-    <select name="per_page" id="per_page" onchange="this.form.submit()">
-      <option value="15" <%= 'selected' if @per_page.to_i == 15 %>>15</option>
-      <option value="30" <%= 'selected' if @per_page.to_i == 30 %>>30</option>
-      <option value="50" <%= 'selected' if @per_page.to_i == 50 %>>50</option>
-      <option value="100" <%= 'selected' if @per_page.to_i == 100 %>>100</option>
-    </select>
-    <%= label_tag :query, "Search:" %>
-    <%= text_field_tag :query, @query %>
-    <%= submit_tag "Search" %>
-  <% end %>
+  <div class="pagination-controls">
+    <%= form_with url: general_library_index_path, method: :get, local: true do %>
+      <div style="display: flex; align-items: center;">
+        <label for="per_page">Books per page:</label>
+        <select name="per_page" id="per_page" onchange="this.form.submit()">
+          <option value="15" <%= 'selected' if @per_page.to_i == 15 %>>15</option>
+          <option value="30" <%= 'selected' if @per_page.to_i == 30 %>>30</option>
+          <option value="50" <%= 'selected' if @per_page.to_i == 50 %>>50</option>
+          <option value="100" <%= 'selected' if @per_page.to_i == 100 %>>100</option>
+        </select>
+        <%= label_tag :query, "Search:" %>
+        <%= text_field_tag :query, @query %>
+        <%= submit_tag "Search" %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="books-container">
+    <% @books.each do |book| %>
+      <div class="book-card">
+        <%= link_to general_library_path(book) do %>
+          <%= image_tag book.cover_image.attached? ? url_for(book.cover_image) : 'default_cover.png', size: "200x300" %>
+          <h2><%= book.title %></h2>
+          <p><strong>Author:</strong> <%= book.author.name %></p>
+          <p><strong>Genres:</strong> <%= book.categories.map(&:name).join(', ') %></p>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="pagination">
+    <%= paginate @books %>
+  </div>
 </div>
 
-<div class="books-container">
-  <% @books.each do |book| %>
-    <div class="book-card">
-      <%= link_to general_library_path(book) do %>
-        <%= image_tag book.cover_image.attached? ? url_for(book.cover_image) : 'default_cover.png', size: "150x150" %>
-        <h2><%= book.title %></h2>
-        <p><strong>Author:</strong> <%= book.author.name %></p>
-        <p><strong>Genres:</strong> <%= book.categories.map(&:name).join(', ') %></p>
-        <p><%= book.description.truncate(150) %></p>
-      <% end %>
-    </div>
-  <% end %>
-</div>
-
-<div class="pagination">
-  <%= paginate @books %>
-</div>
 
 <style>
-    .pagination-controls {
-        margin-bottom: 20px;
-        text-align: right;
+
+    .general-library-page {
+        text-align: center;
+        padding: 20px;
+        background-color: #1e1e1e;
+        color: #ffffff;
+        border-radius: 10px;
+        width: 80%;
+        margin: 20px auto;
     }
+
+    .general-library-page h1 {
+        color: #ffbd33;
+        margin-bottom: 20px;
+    }
+
+    .pagination-controls {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin-bottom: 20px;
+        color: #fff;
+    }
+
+    .pagination-controls label,
+    .pagination-controls select,
+    .pagination-controls input[type="text"],
+    .pagination-controls input[type="submit"] {
+        margin-right: 10px;
+    }
+
+    .pagination-controls select,
+    .pagination-controls input[type="text"],
+    .pagination-controls input[type="submit"] {
+        padding: 5px;
+        border-radius: 5px;
+        border: 1px solid #444;
+        background-color: #333;
+        color: #fff;
+    }
+
+    .pagination-controls input[type="submit"] {
+        background-color: #ff5733;
+        cursor: pointer;
+    }
+
+    .pagination-controls input[type="submit"]:hover {
+        background-color: #ffbd33;
+    }
+
     .books-container {
         display: flex;
         flex-wrap: wrap;
-        justify-content: space-around;
+        justify-content: flex-start;
     }
+
     .book-card {
-        background-color: #fff;
-        border: 1px solid #ddd;
+        position: relative;
+        background-color: #2e2e2e;
+        border: 1px solid #444;
         border-radius: 8px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        margin: 20px;
-        padding: 20px;
-        width: 200px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+        margin: 10px;
+        padding: 10px;
+        width: 150px;
         text-align: center;
+        color: #fff;
     }
+
     .book-card img {
         margin-bottom: 10px;
+        border-radius: 8px;
+        width: 100px;
+        height: auto;
     }
+
     .book-card h2 {
-        font-size: 18px;
+        font-size: 16px;
         margin-bottom: 10px;
+        color: #ffbd33;
     }
+
     .book-card p {
         margin: 5px 0;
-        font-size: 14px;
+        font-size: 12px;
+        color: #bbb;
     }
+
+    .book-card strong {
+        color: #ffbd33;
+    }
+
+    .add-to-library-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+    }
+
+    .add-to-library-btn img {
+        width: 24px;
+        height: 24px;
+    }
+
     .pagination {
         margin-top: 20px;
         text-align: center;
     }
+
+    .pagination a,
+    .pagination span {
+        color: #ffbd33;
+        padding: 8px 12px;
+        border-radius: 5px;
+        margin: 0 5px;
+        background-color: #333;
+        text-decoration: none;
+    }
+
+    .pagination a:hover,
+    .pagination span.current {
+        background-color: #ff5733;
+    }
+
 </style>

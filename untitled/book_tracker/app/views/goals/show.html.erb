@@ -1,18 +1,30 @@
-<h1>Reading Goal</h1>
-
-<p>Goal: <%= current_user.reading_goal || 'Not set' %> books</p>
-<p>Books read this year: <%= current_user.books_read_count_this_year %> / <%= current_user.reading_goal %></p>
-<p>Progress: <%= current_user.goal_progress %> %</p>
-
-<h2>Books read this year:</h2>
-<ul>
-  <% current_user.books_read_this_year.each do |book| %>
-    <li>
-      <%= link_to book.title, book_path(book) %> -
-      Started on: <%= book.started_reading_on %>,
-      Finished on: <%= book.finished_reading_on %>
-    </li>
+<div class="goal-page">
+  <%= link_to edit_goal_path, class: 'edit-goal' do %>
+    <img src="<%= asset_path('edit.png') %>" alt="Edit Goal">
   <% end %>
-</ul>
 
-<%= link_to 'Edit Goal', edit_goal_path %>
+  <div class="goal">
+    Goal for <%= Time.current.year %>: <%= current_user.reading_goal || 'Not set' %> books
+    <div class="goal-subtitle">
+      Books read this year: <%= current_user.books_read_count_this_year %> / <%= current_user.reading_goal %>
+    </div>
+  </div>
+
+  <div class="progress-container">
+    <div class="progress-bar">
+      <div class="progress-bar-fill" style="width: <%= current_user.goal_progress %>%;">
+        <span class="percentage"><%= current_user.goal_progress %>%</span>
+      </div>
+    </div>
+  </div>
+
+  <h2>Books read this year:</h2>
+  <ul>
+    <% current_user.books_read_this_year.each do |book| %>
+      <li>
+        <%= link_to book.title, book_path(book) %>
+        <p>Started on: <%= book.started_reading_on %>, Finished on: <%= book.finished_reading_on %></p>
+      </li>
+    <% end %>
+  </ul>
+</div>

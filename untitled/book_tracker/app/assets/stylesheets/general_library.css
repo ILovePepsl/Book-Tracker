@@ -1,0 +1,114 @@
+.general-library-page {
+    text-align: left;
+    padding: 20px;
+    background-color: #1e1e1e;
+    color: #ffffff;
+    border-radius: 10px;
+    width: 90%;
+    margin: 20px auto;
+}
+
+.general-library-page h1 {
+    color: #ffbd33;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.pagination-controls {
+    margin-bottom: 20px;
+    text-align: right;
+}
+
+.pagination-controls label {
+    margin-right: 10px;
+}
+
+.pagination-controls select,
+.pagination-controls input[type="text"] {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #444;
+    background-color: #333;
+    color: #fff;
+}
+
+.pagination-controls input[type="submit"] {
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #ff5733;
+    color: #fff;
+    cursor: pointer;
+}
+
+.pagination-controls input[type="submit"]:hover {
+    background-color: #ffbd33;
+}
+
+.books-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.book-card {
+    background-color: #2e2e2e;
+    border: 1px solid #444;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    margin: 20px;
+    padding: 20px;
+    width: 200px;
+    text-align: center;
+}
+
+.book-card img {
+    border-radius: 5px;
+    margin-bottom: 10px;
+    width: 150px;
+    height: 225px;
+}
+
+.book-card h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #ffbd33;
+}
+
+.book-card p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #bbb;
+}
+
+.book-card a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.book-card a:hover h2 {
+    text-decoration: underline;
+}
+
+.pagination {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.pagination .page-item .page-link {
+    color: #ffbd33;
+    background-color: #2e2e2e;
+    border: 1px solid #444;
+    border-radius: 5px;
+    margin: 0 5px;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #ff5733;
+    border-color: #ff5733;
+}
+
+.pagination .page-item .page-link:hover {
+    background-color: #ffbd33;
+    border-color: #ffbd33;
+}

@@ -1,0 +1,54 @@
+.general-library-show-page {
+    text-align: center;
+    padding: 20px;
+    background-color: #1e1e1e;
+    color: #ffffff;
+    border-radius: 10px;
+    width: 80%;
+    margin: 20px auto;
+}
+
+.general-library-show-page h1 {
+    color: #ffbd33;
+    margin-bottom: 20px;
+}
+
+.general-library-show-page img {
+    border-radius: 8px;
+    margin-bottom: 20px;
+    width: 200px;
+    height: auto;
+}
+
+.general-library-show-page p {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #bbb;
+}
+
+.general-library-show-page p a {
+    color: #ffbd33;
+    text-decoration: none;
+}
+
+.general-library-show-page p a:hover {
+    text-decoration: underline;
+}
+
+.add-to-library-form {
+    margin-top: 20px;
+}
+
+.add-to-library-form input[type="submit"] {
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    background-color: #ff5733;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.add-to-library-form input[type="submit"]:hover {
+    background-color: #ffbd33;
+}
