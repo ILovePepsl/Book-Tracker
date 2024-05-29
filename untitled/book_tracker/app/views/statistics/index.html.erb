@@ -1,0 +1,263 @@
+<h1>Statistics</h1>
+
+<div class="statistics-cards">
+  <div class="stat-card">
+    <h3>Total Books Read</h3>
+    <p class="stat-value"><%= @total_books_read %></p>
+  </div>
+  <div class="stat-card">
+    <h3>Average Reading Time</h3>
+    <p class="stat-value"><%= @average_reading_time %> days</p>
+  </div>
+  <div class="stat-card">
+    <h3>Total Notes</h3>
+    <p class="stat-value"><%= @total_notes %></p>
+  </div>
+  <div class="stat-card">
+    <h3>Total Quotes</h3>
+    <p class="stat-value"><%= @total_quotes %></p>
+  </div>
+</div>
+
+<div class="charts-container">
+  <div class="chart-card">
+    <h2>Genre Distribution</h2>
+    <canvas id="genre-distribution-chart" width="300" height="300"></canvas>
+    <div id="genre-distribution-legend" class="chart-legend"></div>
+  </div>
+  <div class="chart-card">
+    <h2>Average Rating:  <span class="stat-value"><%= @average_rating %> </span></h2>
+    <canvas id="rating-distribution-chart" width="300" height="300"></canvas>
+    <div id="rating-distribution-legend" class="chart-legend"></div>
+  </div>
+  <div class="chart-card">
+    <h2>Books by Authors</h2>
+    <canvas id="books-by-authors-chart" width="300" height="300"></canvas>
+    <div id="books-by-authors-legend" class="chart-legend"></div>
+  </div>
+</div>
+
+<h2 style="text-align: center;">Books Read by Month and Year</h2>
+<div class="charts-container">
+  <div class="chart-card-medium">
+    <h3>By Year</h3>
+    <canvas id="books-read-by-year-chart" width="500" height="400"></canvas>
+  </div>
+  <div class="chart-card-medium">
+    <h3>By Month</h3>
+    <canvas id="books-read-by-month-chart" width="500" height="400"></canvas>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const maxLegendItems = 5;
+
+        const createPieChart = (ctx, data, labels, legendId) => {
+            const sortedData = data.map((value, index) => ({ value, label: labels[index] }))
+              .sort((a, b) => b.value - a.value);
+
+            const sortedValues = sortedData.map(item => item.value);
+            const sortedLabels = sortedData.map(item => item.label);
+
+            const chart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    datasets: [{
+                        data: sortedValues,
+                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#66BB6A', '#FF7043', '#29B6F6', '#AB47BC', '#FFCA28', '#8D6E63', '#26A69A']
+                    }],
+                    labels: sortedLabels
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+
+            const legendContainer = document.getElementById(legendId);
+            let legendHTML = '';
+
+            sortedLabels.forEach((label, index) => {
+                const color = chart.data.datasets[0].backgroundColor[index];
+                if (index < maxLegendItems) {
+                    legendHTML += `<div class="legend-item"><span class="legend-color" style="background-color:${color};"></span>${label}</div>`;
+                } else if (index === maxLegendItems) {
+                    legendHTML += `<div class="legend-item"><span class="legend-color" style="background-color: #ccc;"></span>+${sortedLabels.length - maxLegendItems}</div>`;
+                }
+            });
+
+            legendContainer.innerHTML = legendHTML;
+        };
+
+        const genreData = <%= @genre_distribution.to_json.html_safe %>;
+        const genreCtx = document.getElementById('genre-distribution-chart').getContext('2d');
+        createPieChart(genreCtx, genreData.map(g => g.y), genreData.map(g => g.name), 'genre-distribution-legend');
+
+        const ratingData = <%= @rating_distribution.to_json.html_safe %>;
+        const ratingCtx = document.getElementById('rating-distribution-chart').getContext('2d');
+        createPieChart(ratingCtx, Object.values(ratingData), Object.keys(ratingData), 'rating-distribution-legend');
+
+        const authorData = <%= @books_by_authors.to_json.html_safe %>;
+        const authorCtx = document.getElementById('books-by-authors-chart').getContext('2d');
+        createPieChart(authorCtx, authorData.map(a => a.y), authorData.map(a => a.name), 'books-by-authors-legend');
+
+        const yearlyData = <%= @books_read_by_month_and_year[:yearly].to_json.html_safe %>;
+        const yearlyMax = Math.max(...Object.values(yearlyData)) * 1.3;
+        const yearlyCtx = document.getElementById('books-read-by-year-chart').getContext('2d');
+        new Chart(yearlyCtx, {
+            type: 'bar',
+            data: {
+                labels: Object.keys(yearlyData),
+                datasets: [{
+                    label: 'Books Read by Year',
+                    data: Object.values(yearlyData),
+                    backgroundColor: '#36A2EB'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: yearlyMax
+                    }
+                }
+            }
+        });
+
+        const monthlyData = <%= @books_read_by_month_and_year[:monthly].to_json.html_safe %>;
+        const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        const monthlyCounts = months.map(month => monthlyData[month] || 0);
+        const monthlyMax = Math.max(...monthlyCounts) * 1.3;
+        const monthlyCtx = document.getElementById('books-read-by-month-chart').getContext('2d');
+        new Chart(monthlyCtx, {
+            type: 'bar',
+            data: {
+                labels: months,
+                datasets: [{
+                    label: 'Books Read by Month',
+                    data: monthlyCounts,
+                    backgroundColor: '#FF6384'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: monthlyMax
+                    }
+                }
+            }
+        });
+    });
+</script>
+
+<style>
+    .statistics-cards {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 20px;
+    }
+
+    .stat-card {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        text-align: center;
+        width: 180px;
+    }
+
+    .stat-card h3 {
+        margin: 0 0 10px;
+        font-size: 18px;
+        color: #000000;
+    }
+
+    .stat-card .stat-value {
+        margin: 0;
+        font-size: 24px;
+        font-weight: bold;
+        color: #000000;
+    }
+
+    .charts-container {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        gap: 20px;
+    }
+
+    .chart-card,
+    .chart-card-large,
+    .chart-card-medium {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        text-align: center;
+    }
+
+    .chart-card {
+        width: 300px;
+    }
+
+    .chart-card-large {
+        width: 600px;
+    }
+
+    .chart-card-medium {
+        width: 475px;
+    }
+
+    .chart-card h2,
+    .chart-card-large h2,
+    .chart-card-large h3,
+    .chart-card-medium h3 {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 10px;
+        gap: 5px;
+    }
+
+    .chart-legend {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 10px;
+    }
+
+    .legend-item {
+        display: flex;
+        align-items: center;
+        margin-right: 10px;
+    }
+
+    .legend-color {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        margin-right: 5px;
+    }
+
+    #genre-distribution-chart,
+    #rating-distribution-chart,
+    #books-by-authors-chart,
+    #books-read-by-year-chart,
+    #books-read-by-month-chart {
+        max-width: 400px;
+        max-height: 400px;
+        margin: auto;
+    }
+</style>

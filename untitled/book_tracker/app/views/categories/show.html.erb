@@ -1,0 +1,24 @@
+<h1><%= @category.name %></h1>
+
+
+<h2>Books in this category in My Library:</h2>
+<ul>
+  <% @user_library_books.each do |book| %>
+    <li>
+      <%= link_to book.title, book_path(book) %>
+      <%= image_tag book.cover_image.attached? ? url_for(book.cover_image) : 'default_cover.png', size: "50x50" %>
+    </li>
+  <% end %>
+</ul>
+
+<h2>Books in this category in General Library:</h2>
+<ul>
+  <% @general_library_books.each do |book| %>
+    <li>
+      <%= link_to book.title, general_library_path(book) %>
+      <%= image_tag book.cover_image.attached? ? url_for(book.cover_image) : 'default_cover.png', size: "50x50" %>
+    </li>
+  <% end %>
+</ul>
+
+

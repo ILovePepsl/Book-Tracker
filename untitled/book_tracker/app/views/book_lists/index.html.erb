@@ -1,0 +1,9 @@
+<h1>My Book Lists</h1>
+<%= link_to 'Create New List', new_book_list_path %>
+<ul>
+  <% @book_lists.each do |book_list| %>
+    <li>
+      <%= link_to book_list.name, book_list_path(book_list) %>
+    </li>
+  <% end %>
+</ul>

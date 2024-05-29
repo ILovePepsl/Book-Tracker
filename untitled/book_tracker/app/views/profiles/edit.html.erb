@@ -1,0 +1,15 @@
+<div class="profile-edit">
+  <%= form_for(@user, url: profile_path, html: { method: :put }) do |f| %>
+    <div class="field">
+      <%= f.label :username %>
+      <%= f.text_field :username %>
+    </div>
+    <div class="field">
+      <%= f.label :avatar %>
+      <%= f.file_field :avatar %>
+    </div>
+    <div class="actions">
+      <%= f.submit 'Save changes' %>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,12 @@
+<div class="profile">
+  <div class="avatar">
+    <%= image_tag @user.avatar.attached? ? url_for(@user.avatar) : 'default_avatar.jpg', size: "150x150" %>
+  </div>
+  <div class="info">
+    <p>Username: <%= @user.username %></p>
+    <p>Total Books: <%= @user.total_books_read %></p>
+    <p>Achievement Progress: <%= @user.achievements_percentage %>%</p>
+    <p>Goal Progress: <%= @user.goal_progress %>%</p>
+    <%= link_to 'Edit Profile', edit_profile_path %>
+  </div>
+</div>

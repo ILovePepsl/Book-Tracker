@@ -1,0 +1,88 @@
+# app/views/books/show.html.erb
+<h1><%= @book.title %></h1>
+<%= image_tag @book.cover_image.attached? ? url_for(@book.cover_image) : 'default_cover.png', size: "150x150" %>
+<p><%= @book.description %></p>
+<p>Author: <%= link_to @book.author.name, author_path(@book.author) %></p>
+<p>Categories:
+  <%= @book.categories.map { |category| link_to category.name, category_path(category) }.join(', ').html_safe %>
+</p>
+<p>Rating: <%= @book.rating %></p>
+
+<%= link_to 'Edit', edit_book_path(@book) %>
+
+<%= form_with model: @book, method: :delete, local: true do %>
+  <%= submit_tag 'Delete Book', data: { confirm: 'Are you sure you want to delete this book?' } %>
+<% end %>
+
+<h2>Set Status</h2>
+<%= form_with url: set_status_book_path(@book), method: :post, local: true do %>
+  <%= select_tag :status, options_for_select(['Хочу прочитать', 'Сейчас читаю', 'Прочитал'], selected: @book.status) %>
+  <div id="reading-dates" style="display: none;">
+    <%= label_tag :started_reading_on, 'Started Reading On' %>
+    <%= date_field_tag :started_reading_on, @book.started_reading_on %>
+    <%= label_tag :finished_reading_on, 'Finished Reading On' %>
+    <%= date_field_tag :finished_reading_on, @book.finished_reading_on %>
+    <%= label_tag :rating, 'Rating' %>
+    <%= select_tag :rating, options_for_select((1..10).to_a, selected: @book.rating) %>
+  </div>
+  <%= submit_tag 'Set Status' %>
+<% end %>
+
+<h2>Add to List</h2>
+<%= form_with url: add_to_list_book_path(@book), method: :post, local: true do %>
+  <%= select_tag :list_name, options_for_select(@user_lists.map(&:name)) %>
+  <%= submit_tag 'Add to List' %>
+<% end %>
+
+<h2>Quotes</h2>
+<div>
+  <button type="button" onclick="toggleSection('quotes-section')">Show/Hide Quotes</button>
+  <div id="quotes-section" style="display: none;">
+    <% @book.quotes.each do |quote| %>
+      <p><%= quote.content %> <em>(Added on: <%= quote.created_at.strftime('%Y-%m-%d') %>)</em></p>
+      <%= button_to 'Remove', book_quote_path(@book, quote), method: :delete, data: { confirm: 'Are you sure?' } %>
+    <% end %>
+    <%= form_with model: [@book, @book.quotes.build], local: true do |f| %>
+      <%= f.text_area :content, placeholder: "Add a new quote" %>
+      <%= f.submit 'Add Quote' %>
+    <% end %>
+  </div>
+</div>
+
+<h2>Notes</h2>
+<div>
+  <button type="button" onclick="toggleSection('notes-section')">Show/Hide Notes</button>
+  <div id="notes-section" style="display: none;">
+    <% @book.notes.each do |note| %>
+      <p><%= note.content %> <em>(Added on: <%= note.created_at.strftime('%Y-%m-%d') %>)</em></p>
+      <%= button_to 'Remove', book_note_path(@book, note), method: :delete, data: { confirm: 'Are you sure?' } %>
+    <% end %>
+    <%= form_with model: [@book, @book.notes.build], local: true do |f| %>
+      <%= f.text_area :content, placeholder: "Add a new note" %>
+      <%= f.submit 'Add Note' %>
+    <% end %>
+  </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const statusSelect = document.querySelector('select[name="status"]');
+        const readingDates = document.getElementById('reading-dates');
+
+        const toggleReadingDates = () => {
+            if (statusSelect.value === 'Прочитал') {
+                readingDates.style.display = 'block';
+            } else {
+                readingDates.style.display = 'none';
+            }
+        };
+
+        statusSelect.addEventListener('change', toggleReadingDates);
+        toggleReadingDates();
+    });
+
+    function toggleSection(sectionId) {
+        const section = document.getElementById(sectionId);
+        section.style.display = section.style.display === 'none' ? 'block' : 'none';
+    }
+</script>

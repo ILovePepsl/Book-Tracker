@@ -1,0 +1,110 @@
+<%= form_for @book, html: { multipart: true } do |f| %>
+  <div class="field">
+    <%= f.label :title %>
+    <%= f.text_field :title %>
+  </div>
+  <div class="field">
+    <%= f.label :description %>
+    <%= f.text_area :description %>
+  </div>
+  <div class="field">
+    <%= f.label :cover_image %>
+    <%= f.file_field :cover_image %>
+  </div>
+  <div class="field">
+    <%= f.label :author_id, 'Author' %>
+    <%= f.collection_select :author_id, @authors, :id, :name, prompt: 'Select an author' %>
+    <%= link_to 'Add New Author', new_author_path %>
+  </div>
+  <div class="field">
+    <%= f.label :category_ids, 'Categories' %>
+    <input type="text" id="category-search" placeholder="Search for categories...">
+    <ul id="category-search-results"></ul>
+    <ul id="selected-categories">
+      <% @book.categories.each do |category| %>
+        <li data-id="<%= category.id %>"><%= category.name %> <button type="button" class="remove-category">Remove</button></li>
+      <% end %>
+    </ul>
+    <input type="hidden" name="book[category_ids][]" id="category-ids">
+    <%= link_to 'Add New Category', new_category_path %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const categorySearch = document.getElementById('category-search');
+        const categorySearchResults = document.getElementById('category-search-results');
+        const selectedCategories = document.getElementById('selected-categories');
+        const categoryIdsInput = document.getElementById('category-ids');
+
+        categorySearch.addEventListener('input', () => {
+            const query = categorySearch.value;
+            if (query.length < 2) {
+                categorySearchResults.innerHTML = '';
+                return;
+            }
+
+            fetch(`/categories?query=${query}`, {
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    categorySearchResults.innerHTML = '';
+                    data.forEach(category => {
+                        const li = document.createElement('li');
+                        li.textContent = category.name;
+                        li.dataset.id = category.id;
+                        li.addEventListener('click', () => {
+                            if (!Array.from(selectedCategories.children).find(child => child.dataset.id == category.id)) {
+                                const selectedLi = document.createElement('li');
+                                selectedLi.textContent = category.name;
+                                selectedLi.dataset.id = category.id;
+                                const removeButton = document.createElement('button');
+                                removeButton.type = 'button';
+                                removeButton.textContent = 'Remove';
+                                removeButton.addEventListener('click', () => {
+                                    selectedCategories.removeChild(selectedLi);
+                                    updateCategoryIds();
+                                });
+                                selectedLi.appendChild(removeButton);
+                                selectedCategories.appendChild(selectedLi);
+                                updateCategoryIds();
+                                categorySearch.value = '';
+                                categorySearchResults.innerHTML = '';
+                            }
+                        });
+                        categorySearchResults.appendChild(li);
+                    });
+                });
+        });
+
+        selectedCategories.addEventListener('click', (event) => {
+            if (event.target.classList.contains('remove-category')) {
+                const li = event.target.parentElement;
+                selectedCategories.removeChild(li);
+                updateCategoryIds();
+            }
+        });
+
+        function updateCategoryIds() {
+            const ids = Array.from(selectedCategories.children).map(li => li.dataset.id);
+            while (categoryIdsInput.firstChild) {
+                categoryIdsInput.removeChild(categoryIdsInput.firstChild);
+            }
+            ids.forEach(id => {
+                const hiddenField = document.createElement('input');
+                hiddenField.type = 'hidden';
+                hiddenField.name = 'book[category_ids][]';
+                hiddenField.value = id;
+                categoryIdsInput.appendChild(hiddenField);
+            });
+        }
+
+        updateCategoryIds();
+    });
+</script>

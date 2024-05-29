@@ -1,0 +1,18 @@
+<h1>Reading Goal</h1>
+
+<p>Goal: <%= current_user.reading_goal || 'Not set' %> books</p>
+<p>Books read this year: <%= current_user.books_read_count_this_year %> / <%= current_user.reading_goal %></p>
+<p>Progress: <%= current_user.goal_progress %> %</p>
+
+<h2>Books read this year:</h2>
+<ul>
+  <% current_user.books_read_this_year.each do |book| %>
+    <li>
+      <%= link_to book.title, book_path(book) %> -
+      Started on: <%= book.started_reading_on %>,
+      Finished on: <%= book.finished_reading_on %>
+    </li>
+  <% end %>
+</ul>
+
+<%= link_to 'Edit Goal', edit_goal_path %>

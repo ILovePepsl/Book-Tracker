@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>BookTracker</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  <style>
+      .container {
+          display: flex;
+      }
+      .sidebar {
+          width: 200px;
+          padding: 15px;
+          background-color: #f8f9fa;
+      }
+      .main-content {
+          flex-grow: 1;
+          padding: 15px;
+      }
+      .sidebar a {
+          display: block;
+          padding: 10px;
+          text-decoration: none;
+          color: #007bff;
+      }
+      .sidebar a:hover {
+          background-color: #e9ecef;
+      }
+  </style>
+</head>
+
+<body>
+<div class="container">
+  <div class="sidebar">
+    <%= render 'shared/sidebar' %>
+  </div>
+  <div class="main-content">
+    <nav>
+      <% if user_signed_in? %>
+        <%= link_to 'Profile', edit_user_registration_path %> |
+        <%= button_to 'Logout', destroy_user_session_path, method: :delete %>
+      <% else %>
+        <%= link_to 'Sign up', new_user_registration_path %> |
+        <%= link_to 'Login', new_user_session_path %>
+      <% end %>
+    </nav>
+
+    <%= yield %>
+  </div>
+</div>
+</body>
+</html>

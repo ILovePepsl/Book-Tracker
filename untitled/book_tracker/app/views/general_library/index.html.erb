@@ -1,0 +1,68 @@
+<h1>General Library</h1>
+
+<div class="pagination-controls">
+  <%= form_with url: general_library_index_path, method: :get, local: true do %>
+    <label for="per_page">Books per page:</label>
+    <select name="per_page" id="per_page" onchange="this.form.submit()">
+      <option value="15" <%= 'selected' if @per_page.to_i == 15 %>>15</option>
+      <option value="30" <%= 'selected' if @per_page.to_i == 30 %>>30</option>
+      <option value="50" <%= 'selected' if @per_page.to_i == 50 %>>50</option>
+      <option value="100" <%= 'selected' if @per_page.to_i == 100 %>>100</option>
+    </select>
+  <% end %>
+</div>
+
+<div class="books-container">
+  <% @books.each do |book| %>
+    <div class="book-card">
+      <%= link_to general_library_path(book) do %>
+        <%= image_tag book.cover_image.attached? ? url_for(book.cover_image) : 'default_cover.png', size: "150x150" %>
+        <h2><%= book.title %></h2>
+        <p><strong>Author:</strong> <%= book.author.name %></p>
+        <p><strong>Genres:</strong> <%= book.categories.map(&:name).join(', ') %></p>
+        <p><%= book.description.truncate(150) %></p>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+<div class="pagination">
+  <%= paginate @books %>
+</div>
+
+<style>
+    .pagination-controls {
+        margin-bottom: 20px;
+        text-align: right;
+    }
+    .books-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+    .book-card {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        margin: 20px;
+        padding: 20px;
+        width: 200px;
+        text-align: center;
+    }
+    .book-card img {
+        margin-bottom: 10px;
+    }
+    .book-card h2 {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+    .book-card p {
+        margin: 5px 0;
+        font-size: 14px;
+    }
+    .pagination {
+        margin-top: 20px;
+        text-align: center;
+    }
+</style>

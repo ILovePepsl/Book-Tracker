@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  total_books: 1
+  total_pages: 1
+  average_rating: 1.5
+  genre_distribution: MyText
+  monthly_books: MyText
+  monthly_pages: MyText
+
+two:
+  user: two
+  total_books: 1
+  total_pages: 1
+  average_rating: 1.5
+  genre_distribution: MyText
+  monthly_books: MyText
+  monthly_pages: MyText

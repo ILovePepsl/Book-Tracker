@@ -1,0 +1,12 @@
+<h1>Authors</h1>
+<%= link_to 'Add New Author', new_author_path %>
+<ul>
+  <% authors.each do |author| %>
+    <li>
+      <%= author.name %>
+      <%= link_to 'Edit', edit_author_path(author) %>
+      <%= link_to 'Delete', author_path(author), method: :delete, data: { confirm: 'Are you sure?' } %>
+    </li>
+  <% end %>
+</ul>
+<%= link_to 'Back to Library', books_path %>
