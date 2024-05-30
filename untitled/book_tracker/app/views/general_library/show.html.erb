@@ -2,14 +2,14 @@
   <h1><%= @book.title %></h1>
   <%= image_tag @book.cover_image.attached? ? url_for(@book.cover_image) : 'default_cover.png' %>
   <p><%= @book.description %></p>
-  <p>Author: <%= link_to @book.author.name, author_path(@book.author) %></p>
-  <p>Categories:
+  <p><%= t('general_library.author') %>: <%= link_to @book.author.name, author_path(@book.author) %></p>
+  <p><%= t('general_library.genres') %>:
     <%= @book.categories.map { |category| link_to category.name, category_path(category) }.join(', ').html_safe %>
   </p>
 
   <div class="add-to-library-form">
     <%= form_with url: add_to_my_library_general_library_path(@book), method: :post do %>
-      <%= submit_tag 'Add to My Library' %>
+      <%= submit_tag t('general_library.add_to_my_library') %>
     <% end %>
   </div>
 </div>

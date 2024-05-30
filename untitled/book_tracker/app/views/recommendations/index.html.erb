@@ -1,5 +1,5 @@
 <div class="recommendations-page">
-  <h1>Рекомендованные книги</h1>
+  <h1><%= t('recommendations.title') %></h1>
 
   <% if @recommended_books_with_reasons.any? %>
     <div class="books-list">
@@ -8,13 +8,13 @@
           <%= link_to general_library_path(book_with_reason[:book]) do %>
             <%= image_tag book_with_reason[:book].cover_image.attached? ? url_for(book_with_reason[:book].cover_image) : 'default_cover.png' %>
             <h3><%= book_with_reason[:book].title %></h3>
-            <p>by <%= book_with_reason[:book].author.name %></p>
+            <p><%= t('recommendations.by') %> <%= book_with_reason[:book].author.name %></p>
             <p><em><%= book_with_reason[:reason] %></em></p>
           <% end %>
         </div>
       <% end %>
     </div>
   <% else %>
-    <p class="no-recommendations">У вас пока недостаточно прочитанных книг для получения рекомендаций. Прочитайте как минимум 10 книг.</p>
+    <p class="no-recommendations"><%= t('recommendations.no_recommendations') %></p>
   <% end %>
 </div>

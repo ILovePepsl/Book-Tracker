@@ -1,14 +1,13 @@
 <div class="edit-goal-page">
-  <h1>Edit Reading Goal</h1>
+  <h1><%= t('goal.edit_goal') %></h1>
 
   <%= form_with model: current_user, url: goal_path, method: :patch do |f| %>
     <div class="field">
-      <%= f.label :reading_goal, 'Goal (number of books)' %>
+      <%= f.label :reading_goal, t('goal.goal_number_of_books') %>
       <%= f.number_field :reading_goal %>
     </div>
     <div class="actions">
-      <%= f.submit 'Update Goal' %>
+      <%= f.submit t('goal.update_goal') %>
     </div>
   <% end %>
-
 </div>

@@ -1,8 +1,8 @@
 <div class="book-lists">
   <div class="page-card">
-    <h1>My Book Lists</h1>
+    <h1><%= t('book_list.my_book_lists') %></h1>
     <%= link_to new_book_list_path, class: 'create-new-list' do %>
-      <img src="<%= asset_path('add_new_list.png') %>" alt="Create New List">
+      <img src="<%= asset_path('add_new_list.png') %>" alt="<%= t('book_list.create_new_list') %>">
     <% end %>
     <div class="lists-container">
       <% @book_lists.each do |book_list| %>
@@ -17,7 +17,7 @@
               <% end %>
               <% if book_list.books.count > 4 %>
                 <div class="more-books">
-                  +<%= book_list.books.count - 4 %>
+                  <%= t('book_list.more_books', count: book_list.books.count - 4) %>
                 </div>
               <% end %>
             </div>

@@ -1,51 +1,51 @@
 <div class="statistics-page">
-  <h1>Statistics</h1>
+  <h1><%= t('statistics.title') %></h1>
 
   <div class="statistics-cards">
     <div class="stat-card">
-      <h3>Total Books Read</h3>
+      <h3><%= t('statistics.total_books_read') %></h3>
       <p class="stat-value"><%= @total_books_read %></p>
     </div>
     <div class="stat-card">
-      <h3>Average Reading Time</h3>
-      <p class="stat-value"><%= @average_reading_time %> days</p>
+      <h3><%= t('statistics.average_reading_time') %></h3>
+      <p class="stat-value"><%= @average_reading_time %> <%= t('statistics.days') %></p>
     </div>
     <div class="stat-card">
-      <h3>Total Notes</h3>
+      <h3><%= t('statistics.total_notes') %></h3>
       <p class="stat-value"><%= @total_notes %></p>
     </div>
     <div class="stat-card">
-      <h3>Total Quotes</h3>
+      <h3><%= t('statistics.total_quotes') %></h3>
       <p class="stat-value"><%= @total_quotes %></p>
     </div>
   </div>
 
   <div class="charts-container">
     <div class="chart-card">
-      <h2>Genre Distribution</h2>
+      <h2><%= t('statistics.genre_distribution') %></h2>
       <canvas id="genre-distribution-chart" width="300" height="300"></canvas>
       <div id="genre-distribution-legend" class="chart-legend"></div>
     </div>
     <div class="chart-card">
-      <h2>Average Rating: <span class="stat-value"><%= @average_rating %></span></h2>
+      <h2><%= t('statistics.average_rating') %>: <span class="stat-value"><%= @average_rating %></span></h2>
       <canvas id="rating-distribution-chart" width="300" height="300"></canvas>
       <div id="rating-distribution-legend" class="chart-legend"></div>
     </div>
     <div class="chart-card">
-      <h2>Books by Authors</h2>
+      <h2><%= t('statistics.books_by_authors') %></h2>
       <canvas id="books-by-authors-chart" width="300" height="300"></canvas>
       <div id="books-by-authors-legend" class="chart-legend"></div>
     </div>
   </div>
 
-  <h2 style="text-align: center;">Books Read by Month and Year</h2>
+  <h2 style="text-align: center;"><%= t('statistics.books_read_by_month_and_year') %></h2>
   <div class="charts-container">
     <div class="chart-card-medium">
-      <h3>By Year</h3>
+      <h3><%= t('statistics.by_year') %></h3>
       <canvas id="books-read-by-year-chart" width="500" height="400"></canvas>
     </div>
     <div class="chart-card-medium">
-      <h3>By Month</h3>
+      <h3><%= t('statistics.by_month') %></h3>
       <canvas id="books-read-by-month-chart" width="500" height="400"></canvas>
     </div>
   </div>

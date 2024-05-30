@@ -1,10 +1,10 @@
 <div class="profile">
   <div class="action-buttons">
     <%= link_to edit_profile_path do %>
-      <img src="<%= asset_path('edit.png') %>" alt="Edit Profile">
+      <img src="<%= asset_path('edit.png') %>" alt="<%= t('profile.edit_profile') %>">
     <% end %>
     <%= button_to destroy_user_session_path, method: :delete do %>
-      <img src="<%= asset_path('exit.png') %>" alt="Logout">
+      <img src="<%= asset_path('exit.png') %>" alt="<%= t('profile.logout') %>">
     <% end %>
   </div>
   <div class="info">
@@ -15,18 +15,18 @@
   </div>
   <div class="info">
     <div class="books-read">
-      Total Books Read: <%= @user.total_books_read %>
+      <%= t('profile.total_books_read') %>: <%= @user.total_books_read %>
     </div>
     <div class="progress-bar-container">
       <div class="progress-bar-wrapper">
-        <div class="progress-bar-label">Goal Progress</div>
+        <div class="progress-bar-label"><%= t('profile.goal_progress') %></div>
         <div class="progress-bar">
           <div class="percentage"><%= @user.goal_progress %>%</div>
           <div class="fill" style="width: <%= @user.goal_progress %>%"></div>
         </div>
       </div>
       <div class="progress-bar-wrapper">
-        <div class="progress-bar-label">Achievement Progress</div>
+        <div class="progress-bar-label"><%= t('profile.achievement_progress') %></div>
         <div class="progress-bar">
           <div class="percentage"><%= @user.achievements_percentage %>%</div>
           <div class="fill" style="width: <%= @user.achievements_percentage %>%"></div>

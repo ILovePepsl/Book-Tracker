@@ -3,16 +3,16 @@
     <div class="action-buttons">
       <% unless ['Хочу прочитать', 'Сейчас читаю', 'Прочитал'].include?(@book_list.name) %>
         <%= link_to edit_book_list_path(@book_list), class: 'edit-button' do %>
-          <img src="<%= asset_path('edit.png') %>" alt="Edit List">
+          <img src="<%= asset_path('edit.png') %>" alt="<%= t('book_list.edit_list') %>">
         <% end %>
-        <%= button_to book_list_path(@book_list), method: :delete, data: { confirm: 'Are you sure?' }, class: 'delete-button' do %>
-          <img src="<%= asset_path('delete_book.png') %>" alt="Delete List">
+        <%= button_to book_list_path(@book_list), method: :delete, data: { confirm: t('book_list.confirm_delete') }, class: 'delete-button' do %>
+          <img src="<%= asset_path('delete_book.png') %>" alt="<%= t('book_list.delete_list') %>">
         <% end %>
       <% end %>
     </div>
     <h1><%= @book_list.name %></h1>
 
-    <h2>Books in this list:</h2>
+    <h2><%= t('book_list.books_in_list') %></h2>
     <div class="books-container">
       <% @book_list.books.each do |book| %>
         <div class="book-card">
@@ -23,8 +23,8 @@
             <h3><%= link_to book.title, book_path(book) %></h3>
           </div>
           <% unless ['Хочу прочитать', 'Сейчас читаю', 'Прочитал'].include?(@book_list.name) %>
-            <%= button_to remove_book_from_list_book_list_path(@book_list, book_id: book.id), method: :delete, data: { confirm: 'Are you sure?' }, class: 'remove-button' do %>
-              <img src="<%= asset_path('minus.png') %>" alt="Remove Book">
+            <%= button_to remove_book_from_list_book_list_path(@book_list, book_id: book.id), method: :delete, data: { confirm: t('book_list.confirm_delete') }, class: 'remove-button' do %>
+              <img src="<%= asset_path('minus.png') %>" alt="<%= t('book_list.remove_book') %>">
             <% end %>
           <% end %>
         </div>
@@ -33,109 +33,9 @@
   </div>
 </div>
 
-
 <style>
-    .book-list {
-        background-color: #2c2c2c;
-        color: #ffffff;
-        padding: 20px;
-    }
-
-    .page-card {
-        background-color: #1e1e1e;
-        color: #ffffff;
-        border-radius: 10px;
-        width: 80%;
-        margin: 20px auto;
-        padding: 20px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        position: relative;
-    }
-
-    .page-card h1 {
-        text-align: center;
-        margin-bottom: 20px;
-        color: #ffbd33;
-    }
-
-    .page-card h2 {
-        margin-bottom: 20px;
-        color: #ffbd33;
-    }
-
-    .books-container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
-        justify-content: flex-start;
-    }
-
-    .book-card {
-        background-color: #333;
-        border-radius: 10px;
-        padding: 10px;
-        width: 120px;
-        text-align: center;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        position: relative;
-        box-sizing: border-box;
-    }
-
-    .book-cover img {
-        width: 100px;
-        height: 150px;
-        border-radius: 5px;
-    }
-
-    .book-info {
-        margin-top: 10px;
-    }
-
-    .book-info h3 {
-        font-size: 14px;
-        margin-bottom: 10px;
-        color: #ffbd33;
-    }
-
-    .book-info h3 a {
-        text-decoration: none;
-        color: inherit;
-    }
-
-    .book-info h3 a:hover {
-        text-decoration: underline;
-    }
-
-    .remove-button {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        background: none;
-        border: none;
-        padding: 0;
-        cursor: pointer;
-        width: 16px;
-        height: 16px;
-    }
-
     .remove-button img {
         width: 16px;
         height: 16px;
-    }
-
-    .action-buttons {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        display: flex;
-        gap: 10px;
-    }
-
-    .action-buttons .edit-button img,
-    .action-buttons .delete-button img {
-        width: 24px;
-        height: 24px;
-        cursor: pointer;
-        border-radius: 0;
     }
 </style>

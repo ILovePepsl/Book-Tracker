@@ -11,8 +11,11 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.1].define(version: 2024_05_28_130218) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "achievements", force: :cascade do |t|
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.string "name"
     t.text "description"
     t.boolean "completed"
@@ -25,9 +28,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_28_130218) do
     t.string "namespace"
     t.text "body"
     t.string "resource_type"
-    t.integer "resource_id"
+    t.bigint "resource_id"
     t.string "author_type"
-    t.integer "author_id"
+    t.bigint "author_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["author_type", "author_id"], name: "index_active_admin_comments_on_author"
@@ -83,8 +86,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_28_130218) do
   end
 
   create_table "book_categories", force: :cascade do |t|
-    t.integer "book_id", null: false
-    t.integer "category_id", null: false
+    t.bigint "book_id", null: false
+    t.bigint "category_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["book_id"], name: "index_book_categories_on_book_id"
@@ -92,7 +95,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_28_130218) do
   end
 
   create_table "book_lists", force: :cascade do |t|
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -103,10 +106,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_28_130218) do
     t.string "title"
     t.text "description"
     t.string "cover_image"
-    t.integer "author_id", null: false
+    t.bigint "author_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id"
+    t.bigint "user_id"
     t.date "started_reading_on"
     t.date "finished_reading_on"
     t.string "status"
@@ -125,8 +128,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_28_130218) do
   end
 
   create_table "list_books", force: :cascade do |t|
-    t.integer "book_list_id", null: false
-    t.integer "book_id", null: false
+    t.bigint "book_list_id", null: false
+    t.bigint "book_id", null: false
     t.integer "progress"
     t.float "rating"
     t.text "notes"
@@ -139,7 +142,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_28_130218) do
 
   create_table "notes", force: :cascade do |t|
     t.text "content"
-    t.integer "book_id", null: false
+    t.bigint "book_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["book_id"], name: "index_notes_on_book_id"
@@ -147,15 +150,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_28_130218) do
 
   create_table "quotes", force: :cascade do |t|
     t.text "content"
-    t.integer "book_id", null: false
+    t.bigint "book_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["book_id"], name: "index_quotes_on_book_id"
   end
 
   create_table "reading_calendars", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.integer "book_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "book_id", null: false
     t.date "date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -164,7 +167,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_28_130218) do
   end
 
   create_table "statistics", force: :cascade do |t|
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.integer "total_books"
     t.integer "total_pages"
     t.float "average_rating"

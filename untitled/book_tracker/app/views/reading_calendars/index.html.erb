@@ -1,27 +1,27 @@
 <div class="reading-calendar-page">
-  <h1>Reading Calendar</h1>
+  <h1><%= t('reading_calendar.title') %></h1>
 
   <%= form_with url: reading_calendars_path, method: :get, local: true do %>
     <div>
-      <%= label_tag :year, 'Year' %>
+      <%= label_tag :year, t('reading_calendar.year') %>
       <%= select_tag :year, options_for_select((2000..Time.current.year).to_a.reverse, selected: @year) %>
     </div>
     <div>
-      <%= label_tag :month, 'Month' %>
+      <%= label_tag :month, t('reading_calendar.month') %>
       <%= select_tag :month, options_for_select((1..12).map { |m| [Date::MONTHNAMES[m], m] }, selected: @month), include_blank: true %>
     </div>
-    <%= submit_tag 'Filter' %>
+    <%= submit_tag t('reading_calendar.filter') %>
   <% end %>
 
-  <h2>Books Read in <%= @month ? "#{Date::MONTHNAMES[@month.to_i]} #{@year}" : @year %>:</h2>
+  <h2><%= t('reading_calendar.books_read') %> <%= @month ? "#{Date::MONTHNAMES[@month.to_i]} #{@year}" : @year %>:</h2>
   <ul>
     <% @books.each do |book| %>
       <li>
         <%= image_tag book.cover_image.attached? ? url_for(book.cover_image) : 'default_cover.png', size: "100x150" %>
         <div class="book-info">
           <%= link_to book.title, book_path(book), class: 'book-title' %>
-          <p>Started on: <%= book.started_reading_on %></p>
-          <p>Finished on: <%= book.finished_reading_on %></p>
+          <p><%= t('reading_calendar.started_on') %>: <%= book.started_reading_on %></p>
+          <p><%= t('reading_calendar.finished_on') %>: <%= book.finished_reading_on %></p>
         </div>
       </li>
     <% end %>

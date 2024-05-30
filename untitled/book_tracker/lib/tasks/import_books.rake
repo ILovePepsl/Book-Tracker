@@ -15,7 +15,7 @@ namespace :books do
         if retries < MAX_RETRIES
           retries += 1
           puts "Error fetching #{url}: #{e.message}. Retrying (#{retries}/#{MAX_RETRIES})..."
-          sleep(2 ** retries) # экспоненциальная задержка перед повторной попыткой
+          sleep(2 ** retries)
           retry
         else
           puts "Failed to fetch #{url} after #{MAX_RETRIES} attempts."
@@ -32,14 +32,12 @@ namespace :books do
       author = page.css('span.ContributorLink__name[data-testid="name"]').first&.text&.strip || "Unknown Author"
       description = page.css('div[data-testid="description"] div.TruncatedContent__text span.Formatted').text.strip rescue "No description available."
       image_url = page.css('div.BookCard__cover img.ResponsiveImage').attr('src').value.strip rescue nil
-
-      # Сохраняем только первые две категории
-      genres = page.css('div[data-testid="genresList"] a.Button--tag-inline span.Button__labelItem').map(&:text).take(2).join(", ").strip rescue "No genres available."
+      genres = page.css('div[data-testid="genresList"] a.Button--tag-inline span.Button__labelItem').map(&:text).join(", ").strip rescue "No genres available."
 
       { title: title, author: author, description: description, image_url: image_url, genres: genres }
     end
 
-    def parse_list_page(url)
+    def parse_list_page(url, start_book = 0)
       page = fetch_page(url)
       return unless page
 
@@ -48,6 +46,8 @@ namespace :books do
       puts "Found #{total_books} books to parse on page #{url.split('=').last}."
 
       book_rows.each_with_index do |book_row, index|
+        next if index < start_book
+
         book_link = book_row.css('a.bookTitle').attr('href').value
         puts "Parsing book #{index + 1} on page #{url.split('=').last}: #{book_link}"
         book_details = parse_book_page(book_link)
@@ -70,7 +70,6 @@ namespace :books do
 
           book.save!
 
-          # Привязываем только первые две категории
           genres = book_details[:genres].split(", ").map do |genre|
             Category.find_or_create_by(name: genre)
           end
@@ -102,9 +101,12 @@ namespace :books do
     puts "Starting to parse list pages. Total pages: #{total_pages}"
 
     (1..total_pages).each do |page_number|
+      next if page_number < 97 #изменить для номера стр
+
       list_url = "#{base_url}?page=#{page_number}"
+      start_book = (page_number == 97) ? 79 : 0 #тут номер стр и номер книги
       puts "Parsing page #{page_number} of #{total_pages}: #{list_url}"
-      parse_list_page(list_url)
+      parse_list_page(list_url, start_book)
     end
 
     puts "Finished parsing and saving books."

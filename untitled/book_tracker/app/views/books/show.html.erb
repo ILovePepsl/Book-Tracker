@@ -1,11 +1,11 @@
 <div class="book-details">
   <div class="action-buttons">
     <%= link_to edit_book_path(@book), class: 'edit-button' do %>
-      <img src="<%= asset_path('edit_book.png') %>" alt="Edit Book">
+      <img src="<%= asset_path('edit_book.png') %>" alt="<%= t('library.edit_book') %>">
     <% end %>
     <%= form_with model: @book, method: :delete, local: true, class: 'delete-button' do %>
-      <button type="submit" data-confirm="Are you sure you want to delete this book?">
-        <img src="<%= asset_path('delete_book.png') %>" alt="Delete Book">
+      <button type="submit" data-confirm="<%= t('library.confirm_delete') %>">
+        <img src="<%= asset_path('delete_book.png') %>" alt="<%= t('library.delete_book') %>">
       </button>
     <% end %>
   </div>
@@ -13,67 +13,67 @@
   <h1><%= @book.title %></h1>
   <%= image_tag @book.cover_image.attached? ? url_for(@book.cover_image) : 'default_cover.png', size: "300x400" %>
   <p class="description"><%= @book.description %></p>
-  <p class="author">Author: <%= link_to @book.author.name, author_path(@book.author) %></p>
-  <p class="categories">Categories: <%= @book.categories.map { |category| link_to category.name, category_path(category) }.join(', ').html_safe %></p>
-  <p class="rating">Rating: <%= @book.rating %></p>
+  <p class="author"><%= t('library.author') %>: <%= link_to @book.author.name, author_path(@book.author) %></p>
+  <p class="categories"><%= t('library.categories') %>: <%= @book.categories.map { |category| link_to category.name, category_path(category) }.join(', ').html_safe %></p>
+  <p class="rating"><%= t('library.rating') %>: <%= @book.rating %></p>
 
   <div class="form-container">
     <div class="status-form">
-      <h2>Set Status</h2>
+      <h2><%= t('library.set_status') %></h2>
       <%= form_with url: set_status_book_path(@book), method: :post, local: true do %>
         <%= select_tag :status, options_for_select(['Хочу прочитать', 'Сейчас читаю', 'Прочитал'], selected: @book.status || 'Сейчас читаю') %>
         <div id="reading-dates" style="display: none;">
-          <%= label_tag :started_reading_on, 'Started Reading On' %>
+          <%= label_tag :started_reading_on, t('library.started_reading_on') %>
           <%= date_field_tag :started_reading_on, @book.started_reading_on %>
-          <%= label_tag :finished_reading_on, 'Finished Reading On' %>
+          <%= label_tag :finished_reading_on, t('library.finished_reading_on') %>
           <%= date_field_tag :finished_reading_on, @book.finished_reading_on %>
-          <%= label_tag :rating, 'Rating' %>
+          <%= label_tag :rating, t('library.rating') %>
           <%= select_tag :rating, options_for_select((1..10).to_a, selected: @book.rating) %>
         </div>
-        <%= submit_tag 'Set Status' %>
+        <%= submit_tag t('library.set_status') %>
       <% end %>
     </div>
 
     <div class="add-to-list-form">
-      <h2>Add to List</h2>
+      <h2><%= t('library.add_to_list') %></h2>
       <%= form_with url: add_to_list_book_path(@book), method: :post, local: true do %>
         <%= select_tag :list_name, options_for_select(@user_lists.map(&:name)) %>
-        <%= submit_tag 'Add to List' %>
+        <%= submit_tag t('library.add_to_list') %>
       <% end %>
     </div>
   </div>
 
   <div class="section-container">
     <div class="section">
-      <h2>Quotes</h2>
-      <button type="button" onclick="toggleSection('quotes-section')">Show/Hide Quotes</button>
+      <h2><%= t('library.quotes') %></h2>
+      <button type="button" onclick="toggleSection('quotes-section')"><%= t('library.show_hide', section: t('library.quotes')) %></button>
       <div id="quotes-section" class="section-content">
         <% @book.quotes.each do |quote| %>
           <p><%= quote.content %> <em><%= quote.created_at.strftime('%Y-%m-%d') %></em></p>
           <%= form_with model: [@book, quote], url: book_quote_path(@book, quote), method: :delete, local: true do %>
-            <button type="submit" class="new-remove-button" data-confirm="Are you sure?">Remove</button>
+            <button type="submit" class="new-remove-button" data-confirm="<%= t('library.confirm_delete') %>"><%= t('library.remove') %></button>
           <% end %>
         <% end %>
         <%= form_with model: [@book, @book.quotes.build], local: true do |f| %>
-          <%= f.text_area :content, placeholder: "Add a new quote" %>
-          <%= f.submit 'Add Quote', class: 'submit-button' %>
+          <%= f.text_area :content, placeholder: t('library.add_new', item: t('library.quotes').singularize) %>
+          <%= f.submit t('library.add_quote'), class: 'submit-button' %>
         <% end %>
       </div>
     </div>
 
     <div class="section">
-      <h2>Notes</h2>
-      <button type="button" onclick="toggleSection('notes-section')">Show/Hide Notes</button>
+      <h2><%= t('library.notes') %></h2>
+      <button type="button" onclick="toggleSection('notes-section')"><%= t('library.show_hide', section: t('library.notes')) %></button>
       <div id="notes-section" class="section-content">
         <% @book.notes.each do |note| %>
           <p><%= note.content %> <em><%= note.created_at.strftime('%Y-%m-%d') %></em></p>
           <%= form_with model: [@book, note], url: book_note_path(@book, note), method: :delete, local: true do %>
-            <button type="submit" class="new-remove-button" data-confirm="Are you sure?">Remove</button>
+            <button type="submit" class="new-remove-button" data-confirm="<%= t('library.confirm_delete') %>"><%= t('library.remove') %></button>
           <% end %>
         <% end %>
         <%= form_with model: [@book, @book.notes.build], local: true do |f| %>
-          <%= f.text_area :content, placeholder: "Add a new note" %>
-          <%= f.submit 'Add Note', class: 'submit-button' %>
+          <%= f.text_area :content, placeholder: t('library.add_new', item: t('library.notes').singularize) %>
+          <%= f.submit t('library.add_note'), class: 'submit-button' %>
         <% end %>
       </div>
     </div>

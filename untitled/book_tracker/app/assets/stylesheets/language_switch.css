@@ -1,0 +1,15 @@
+.language-switch {
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+.language-switch a {
+    display: inline-block;
+    margin: 0 5px;
+}
+
+.language-switch img {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}

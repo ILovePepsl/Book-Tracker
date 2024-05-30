@@ -1,11 +1,11 @@
 <div class="library">
-  <h1>My Library</h1>
+  <h1><%= t('library.my_library') %></h1>
   <div class="header-buttons">
     <%= link_to new_book_path, class: 'add-book-button' do %>
-      <%= image_tag 'add_new_book.png', size: '40x40' %>
+      <%= image_tag 'add_new_book.png', size: '40x40', alt: t('library.add_book') %>
     <% end %>
     <%= link_to recommendations_path, class: 'recommendations-button' do %>
-      <%= image_tag 'rec.png', size: '40x40' %>
+      <%= image_tag 'rec.png', size: '40x40', alt: t('library.recommendations') %>
     <% end %>
   </div>
   <div class="books-list">
