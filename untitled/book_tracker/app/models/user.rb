@@ -94,62 +94,12 @@ class User < ApplicationRecord
     unique_categories.size
   end
 
+  def all_book_ids
+    books.pluck(:id)
+  end
+
   def check_achievements
-    bibliophile_achievement = achievements.find_by(name: 'Библиофил')
-    if total_books_read >= 100
-      bibliophile_achievement.update(completed: true)
-    else
-      bibliophile_achievement.update(completed: false)
-    end
-
-    speed_reader_achievement = achievements.find_by(name: 'Скоростной читатель')
-    if books.where('started_reading_on = finished_reading_on').exists?
-      speed_reader_achievement.update(completed: true)
-    else
-      speed_reader_achievement.update(completed: false)
-    end
-
-    marathon_reader_achievement = achievements.find_by(name: 'Марафон чтения')
-    if book_lists.find_by(name: 'Прочитал').books.group_by { |book| book.finished_reading_on.strftime('%Y-%m') }.any? { |month, books| books.count >= 5 }
-      marathon_reader_achievement.update(completed: true)
-    else
-      marathon_reader_achievement.update(completed: false)
-    end
-
-    beginner_reader_achievement = achievements.find_by(name: 'Начинающий читатель')
-    if total_books_read >= 1
-      beginner_reader_achievement.update(completed: true)
-    else
-      beginner_reader_achievement.update(completed: false)
-    end
-
-    annual_marathon_achievement = achievements.find_by(name: 'Годовой марафон')
-    if books_read_count_this_year >= 10
-      annual_marathon_achievement.update(completed: true)
-    else
-      annual_marathon_achievement.update(completed: false)
-    end
-
-    diversity_shelf_achievement = achievements.find_by(name: 'Полка разнообразия')
-    if unique_categories_count_from_books >= 5
-      diversity_shelf_achievement.update(completed: true)
-    else
-      diversity_shelf_achievement.update(completed: false)
-    end
-
-    quote_master_achievement = achievements.find_by(name: 'Мастер цитат')
-    if total_quotes_added >= 10
-      quote_master_achievement.update(completed: true)
-    else
-      quote_master_achievement.update(completed: false)
-    end
-
-    important_note_achievement = achievements.find_by(name: 'Что-то важное')
-    if total_notes_written >= 20
-      important_note_achievement.update(completed: true)
-    else
-      important_note_achievement.update(completed: false)
-    end
+    AchievementService.new(self).check_achievements
   end
 
   def achievements_percentage

@@ -1,0 +1,20 @@
+<div class="recommendations-page">
+  <h1>Рекомендованные книги</h1>
+
+  <% if @recommended_books_with_reasons.any? %>
+    <div class="books-list">
+      <% @recommended_books_with_reasons.each do |book_with_reason| %>
+        <div class="book-card">
+          <%= link_to general_library_path(book_with_reason[:book]) do %>
+            <%= image_tag book_with_reason[:book].cover_image.attached? ? url_for(book_with_reason[:book].cover_image) : 'default_cover.png' %>
+            <h3><%= book_with_reason[:book].title %></h3>
+            <p>by <%= book_with_reason[:book].author.name %></p>
+            <p><em><%= book_with_reason[:reason] %></em></p>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="no-recommendations">У вас пока недостаточно прочитанных книг для получения рекомендаций. Прочитайте как минимум 10 книг.</p>
+  <% end %>
+</div>

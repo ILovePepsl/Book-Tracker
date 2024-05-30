@@ -39,6 +39,7 @@ Rails.application.routes.draw do
 
   resources :achievements, only: [:index]
   resources :reading_calendars, only: [:index]
+  resources :recommendations, only: [:index]
   resources :statistics, only: [:index]
   resource :profile, only: [:show, :edit, :update]
   resource :goal, only: [:show, :edit, :update]

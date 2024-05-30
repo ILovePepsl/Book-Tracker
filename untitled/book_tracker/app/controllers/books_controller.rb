@@ -2,6 +2,7 @@ class BooksController < ApplicationController
   before_action :authenticate_user!
   before_action :set_book, only: [:show, :edit, :update, :destroy, :set_status, :add_to_list]
   before_action :set_authors_and_categories, only: [:new, :edit, :create, :update]
+  before_action :redirect_to_general_library_if_not_in_user_library, only: [:show]
 
   def index
     @books = current_user.books
@@ -43,30 +44,14 @@ class BooksController < ApplicationController
   end
 
   def set_status
-    case params[:status]
-    when 'Прочитал'
-      @book.update(status: params[:status], started_reading_on: params[:started_reading_on], finished_reading_on: params[:finished_reading_on], rating: params[:rating])
-      @book.add_to_list('Прочитал')
-      @book.remove_from_list('Хочу прочитать')
-      @book.remove_from_list('Сейчас читаю')
-    when 'Хочу прочитать'
-      @book.update(status: params[:status])
-      @book.add_to_list('Хочу прочитать')
-      @book.remove_from_list('Прочитал')
-      @book.remove_from_list('Сейчас читаю')
-    when 'Сейчас читаю'
-      @book.update(status: params[:status])
-      @book.add_to_list('Сейчас читаю')
-      @book.remove_from_list('Прочитал')
-      @book.remove_from_list('Хочу прочитать')
-    end
-    current_user.check_achievements
+    book_status_service = BookStatusService.new(@book, current_user)
+    book_status_service.set_status(params)
     redirect_to book_path(@book), notice: 'Status and list were successfully updated.'
   end
 
   def add_to_list
-    list = current_user.book_lists.find_by(name: params[:list_name])
-    list.books << @book unless list.books.include?(@book)
+    book_list_service = BookListService.new(current_user, @book)
+    book_list_service.add_to_list(params[:list_name])
     current_user.check_achievements
     redirect_to book_path(@book), notice: 'Book was successfully added to the list.'
   end
@@ -74,7 +59,7 @@ class BooksController < ApplicationController
   private
 
   def set_book
-    @book = Book.find_by(id: params[:id], user: [current_user, nil])
+    @book = Book.find_by(id: params[:id])
   end
 
   def set_authors_and_categories
@@ -84,5 +69,11 @@ class BooksController < ApplicationController
 
   def book_params
     params.require(:book).permit(:title, :description, :cover_image, :author_id, :status, :started_reading_on, :finished_reading_on, :rating, :quotes, :notes, category_ids: [])
+  end
+
+  def redirect_to_general_library_if_not_in_user_library
+    unless current_user.books.exists?(@book.id)
+      redirect_to general_library_path(@book)
+    end
   end
 end

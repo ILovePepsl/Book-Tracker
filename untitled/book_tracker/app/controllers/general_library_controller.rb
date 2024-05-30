@@ -1,16 +1,10 @@
 class GeneralLibraryController < ApplicationController
+  before_action :redirect_to_user_library_if_book_exists, only: [:show]
+
   def index
     @per_page = params[:per_page] || 15
     @query = params[:query]
-
-    @books = if @query.present?
-               Book.where(general_library: true)
-                   .where('title LIKE ? OR description LIKE ?', "%#{@query}%", "%#{@query}%")
-                   .page(params[:page])
-                   .per(@per_page)
-             else
-               Book.where(general_library: true).page(params[:page]).per(@per_page)
-             end
+    @books = BookQuery.general_library(@query, params[:page], @per_page)
   end
 
   def show
@@ -19,6 +13,12 @@ class GeneralLibraryController < ApplicationController
 
   def add_to_my_library
     original_book = Book.find(params[:id])
+
+    if current_user.books.exists?(title: original_book.title)
+      redirect_to general_library_path(original_book), alert: 'У вас уже есть книга с таким названием в библиотеке.'
+      return
+    end
+
     new_book = current_user.books.build(
       title: original_book.title,
       description: original_book.description,
@@ -32,9 +32,18 @@ class GeneralLibraryController < ApplicationController
     end
 
     if new_book.save
-      redirect_to book_path(new_book), notice: 'Book was successfully added to your library.'
+      redirect_to book_path(new_book), notice: 'Книга была успешно добавлена в вашу библиотеку.'
     else
-      redirect_to general_library_path(original_book), alert: 'Failed to add book to your library.'
+      redirect_to general_library_path(original_book), alert: 'Не удалось добавить книгу в вашу библиотеку.'
+    end
+  end
+
+  private
+
+  def redirect_to_user_library_if_book_exists
+    book_in_library = current_user.books.find_by(title: Book.find(params[:id]).title)
+    if book_in_library
+      redirect_to book_path(book_in_library)
     end
   end
 end

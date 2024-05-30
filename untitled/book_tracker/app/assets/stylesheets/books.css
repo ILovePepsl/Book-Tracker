@@ -6,21 +6,26 @@
     border-radius: 10px;
     width: 80%;
     margin: 0 auto;
+    position: relative;
 }
 
 .library h1 {
     margin-bottom: 20px;
 }
 
+.header-buttons {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
 .add-book-button {
     display: inline-block;
-    padding: 10px 20px;
-    background-color: #ff5733;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 5px;
-    margin-bottom: 20px;
-    font-size: 16px;
+    margin-right: 10px;
+}
+
+.recommendations-button {
+    display: inline-block;
 }
 
 .books-list {

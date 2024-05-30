@@ -2,14 +2,14 @@ class StatisticsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @total_books_read = current_user.total_books_read
+    @total_books_read = UserQuery.total_books_read(current_user)
     @genre_distribution = genre_distribution
     @books_read_by_month_and_year = books_read_by_month_and_year
     @average_rating = average_rating
     @rating_distribution = rating_distribution
-    @total_notes = total_notes
-    @total_quotes = total_quotes
-    @average_reading_time = current_user.average_reading_time
+    @total_notes = UserQuery.total_notes_written(current_user)
+    @total_quotes = UserQuery.total_quotes_added(current_user)
+    @average_reading_time = UserQuery.average_reading_time(current_user)
     @books_by_authors = books_by_authors
   end
 
@@ -34,15 +34,7 @@ class StatisticsController < ApplicationController
     current_user.book_lists.find_by(name: 'Прочитал').books.group(:rating).count
   end
 
-  def total_notes
-    current_user.books.joins(:notes).count
-  end
-
-  def total_quotes
-    current_user.books.joins(:quotes).count
-  end
-
   def books_by_authors
-    current_user.books_by_authors.map { |author, count| { name: author, y: count } }
+    UserQuery.books_by_authors(current_user).map { |author, count| { name: author, y: count } }
   end
 end
